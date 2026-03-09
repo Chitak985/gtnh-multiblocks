@@ -1,0 +1,146 @@
+{
+  "name": "BBF Cost Breakdown",
+  "products": [
+    {
+      "goodsId": "i:gregtech:gt.blockmachines:140",
+      "amount": 1
+    },
+    {
+      "goodsId": "i:gregtech:gt.blockcasings4:15",
+      "amount": 20
+    }
+  ],
+  "rootGroup": {
+    "type": "recipe_group",
+    "links": {
+      "i:minecraft:bucket:0": 1,
+      "i:gregtech:gt.metaitem.01:2299": 1,
+      "i:etfuturum:blast_furnace:0": 1
+    },
+    "elements": [
+      {
+        "type": "recipe",
+        "recipeId": "r~DtSqaDoYPNGKKtUgpzWrLQ==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~_VViLJ7_MnutLJ-HeKBv9Q==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~M-QdGEW0MJOf6iOTsxYTuQ==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~vqtXlPNEN2O292qzIM4puA==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~hIkxnbfNNzmq7WoYotNx-Q==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~lIf18PXgOX6EPRJJivjEcw==",
+        "voltageTier": 0,
+        "crafter": "i:gregtech:gt.blockmachines:31041",
+        "choices": {
+          "pressure": 0
+        }
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~OBVijJuBP4a8cbG6561Lcw==",
+        "voltageTier": 0,
+        "crafter": "i:gregtech:gt.blockmachines:31041",
+        "choices": {
+          "pressure": 0
+        }
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~zcXQQp5NMK6PaXqAUwQ0xQ==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~cXWz5_zlMyGkf0hewDeOyQ==",
+        "voltageTier": 0,
+        "crafter": "i:gregtech:gt.blockmachines:116",
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~6ljasJHJMDuq1CJeBxXMuw==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~J3lXa0GLPCi-ArBai5pipg==",
+        "voltageTier": 0,
+        "crafter": "i:gregtech:gt.blockmachines:31041",
+        "choices": {
+          "pressure": 0
+        }
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~yhUFyZIFMd6yoOWupwDpzw==",
+        "voltageTier": 0,
+        "crafter": "i:gregtech:gt.blockmachines:119",
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~G8M0OrC7NJGXZxZijWDvtA==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~MG9hLfVVOAuASFILnRSaJA==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~YRS3BEgNNkmg-uCwYMmZuA==",
+        "voltageTier": 0,
+        "choices": {}
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~EQdTLusyNIWDlMavOsQigg==",
+        "voltageTier": 0,
+        "crafter": "i:gregtech:gt.blockmachines:31080",
+        "choices": {
+          "pressure": 0
+        }
+      },
+      {
+        "type": "recipe",
+        "recipeId": "r~RxLKM7ttMU6oI7nTiP4i9Q==",
+        "voltageTier": 0,
+        "crafter": "i:gregtech:gt.blockmachines:112",
+        "choices": {}
+      }
+    ],
+    "collapsed": false,
+    "name": "Group"
+  },
+  "settings": {
+    "minVoltage": 0,
+    "timeUnit": "min"
+  }
+}
