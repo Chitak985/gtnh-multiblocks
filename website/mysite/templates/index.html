@@ -1,0 +1,1832 @@
+<!DOCTYPE html>
+<!-- Fusion reactor construction rules: https://raw.githubusercontent.com/GTNewHorizons/GT5-Unofficial/refs/heads/master/src/main/resources/assets/gregtech/textures/gui/background/fusion_computer.png-->
+
+<!-- Wallshare table (3d)
+<table>
+	<tr><td></td><td></td><td>3</td><td>3</td><td>3</td><td style="border-top: 1px solid gray; border-left: 1px solid gray">2</td></tr>
+	<tr><td></td><td>3</td><td>3</td><td>3</td><td style="border-top: 1px solid gray; border-left: 1px solid gray">2</td><td>2</td></tr>
+	<tr><td>3</td><td>3</td><td>3</td><td style="border-top: 1px solid gray; border-left: 1px solid gray">2</td><td>2</td><td>2</td></tr>
+	<tr><td style="border-top: 1px solid gray">1</td><td style="border-top: 1px solid gray">1</td><td style="border-top: 1px solid gray; border-right: 1px solid gray">1</td><td>2</td><td>2</td></tr>
+	<tr><td>1</td><td>1</td><td style="border-right: 1px solid gray">1</td><td>2</td></tr>
+	<tr><td>1</td><td>1</td><td style="border-right: 1px solid gray">1</td></tr>
+</table>
+<table>
+	<tr><td></td><td></td><td></td><td>3</td><td>3</td><td>3</td><td>3</td><td style="border-top: 1px solid gray; border-left: 1px solid gray">2</td></tr>
+	<tr><td></td><td></td><td>3</td><td>3</td><td>3</td><td>3</td><td style="border-top: 1px solid gray; border-left: 1px solid gray">2</td><td>2</td></tr>
+	<tr><td></td><td>3</td><td>3</td><td>3</td><td>3</td><td style="border-top: 1px solid gray; border-left: 1px solid gray">2</td><td>2</td><td>2</td></tr>
+	<tr><td>3</td><td>3</td><td>3</td><td>3</td><td style="border-top: 1px solid gray; border-left: 1px solid gray">2</td><td>2</td><td>2</td><td>2</td></tr>
+	<tr><td style="border-top: 1px solid gray">1</td><td style="border-top: 1px solid gray">1</td><td style="border-top: 1px solid gray">1</td><td style="border-top: 1px solid gray; border-right: 1px solid gray">1</td><td>2</td><td>2</td><td>2</td></tr>
+	<tr><td>1</td><td>1</td><td>1</td><td style="border-right: 1px solid gray">1</td><td>2</td><td>2</td></tr>
+	<tr><td>1</td><td>1</td><td>1</td><td style="border-right: 1px solid gray">1</td><td>2</td></tr>
+    <tr><td>1</td><td>1</td><td>1</td><td style="border-right: 1px solid gray">1</td></tr>
+</table>
+-->
+
+<!-- Better Multiblock Selector Table (breaks without every image, also code currently doesn't handle odd image numbers)
+<table>
+	<caption><h2>Multiblock Selector</h2></caption>
+	<tr>
+    	<td>Tier:</td>
+        <td><button onclick="multiblockSelectionTier('0')" id="MST0">Stone</button></td>
+        <td><button onclick="multiblockSelectionTier('1')" id="MST1" disabled>Steam</button></td>
+        <td><button onclick="multiblockSelectionTier('2')" id="MST2">LV</button></td>
+        <td><button onclick="multiblockSelectionTier('3')" id="MST3">MV</button></td>
+        <td><button onclick="multiblockSelectionTier('4')" id="MST4">HV</button></td>
+        <td><button onclick="multiblockSelectionTier('5')" id="MST5">EV</button></td>
+        <td><button onclick="multiblockSelectionTier('6')" id="MST6">IV</button></td>
+        <td><button onclick="multiblockSelectionTier('7')" id="MST7">LuV</button></td>
+        <td><button onclick="multiblockSelectionTier('8')" id="MST8">ZPM</button></td>
+        <td><button onclick="multiblockSelectionTier('9')" id="MST9">UV</button></td>
+        <td><button onclick="multiblockSelectionTier('10')" id="MST10">UHV</button></td>
+        <td><button onclick="multiblockSelectionTier('11')" id="MST11">UEV</button></td>
+        <td><button onclick="multiblockSelectionTier('12')" id="MST12">UIV</button></td>
+        <td><button onclick="multiblockSelectionTier('13')" id="MST13">UMV</button></td>
+        <td><button onclick="multiblockSelectionTier('14')" id="MST14">UXV</button></td>
+    </tr>
+    <tr>
+        <td colspan="50%" width="100%" height="100%"><img src="https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/screenshots/Steam%20GrinderT1.png" width="50%" height="250px"><img src="https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/screenshots/Steam%20SquasherT1.png" width="50%" height="250px"></td>
+    </tr>
+    <tr>
+    	<td colspan="100%">
+        	<table width="100%"><tr><td><div style="text-align: center;"><strong>Steam Grinder</strong></div><button style="margin: 2% 42%;">Select</button></td><td><div style="text-align: center;"><strong>Steam Squasher</strong></div><button style="margin: 2% 42%;">Select</button></td></tr></table>
+        </td>
+    </tr>
+
+    <tr>
+        <td colspan="50%" width="100%" height="100%"><img src="https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/screenshots/Steam%20PurifierT1.png" width="50%" height="250px"><img src="https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/screenshots/Steam%20BlenderT1.png" width="50%" height="250px"></td>
+    </tr>
+    <tr>
+    	<td colspan="100%">
+        	<table width="100%"><tr><td><div style="text-align: center;"><strong>Steam Purifier</strong></div><button style="margin: 2% 42%;">Select</button></td><td><div style="text-align: center;"><strong>Steam Blender</strong></div><button style="margin: 2% 42%;">Select</button></td></tr></table>
+        </td>
+    </tr>
+</table>
+-->
+
+<html>
+    <head>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+'https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+})(window,document,'script','dataLayer','GTM-5RN3WT9V');</script>
+<!-- End Google Tag Manager -->
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-EDVNM7904S"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-EDVNM7904S');
+</script>
+<script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4925617965272768"
+     crossorigin="anonymous"></script>
+        <title>GT:NH Multiblock Resource Calculator (2.8.4)</title>
+		<meta name="referrer" content="no-referrer-when-downgrade" />
+		<meta name="google-site-verification" content="tV2OEKBMP4yHpPsqcEYg4nifmN0C9N3ctjhqBvC1WoE" />
+        <style>
+        @font-face {
+            font-family:'Minecraftia';
+            src: url(/static/F77MinecraftRegular-0VYv.ttf);
+        }
+        p, strong, div, caption, td, tr, button, option, input {
+            font-family: 'Minecraftia', sans-serif;
+        }
+        </style>
+    </head>
+    <body style="background-image: url('https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/backgroundTile.png'); background-color: rgba(255, 255, 255, 0.8); background-blend-mode: lighten; background-size: 25%;">
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-5RN3WT9V"
+height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+        <table style="background-color: #999999; margin: auto;">
+            <tr><td><h1 style="text-align: center; marign: auto; font-family: 'Minecraftia', monospace;"> GregTech: New Horizons Multiblock Resource Calculator (2.8.4)</h1></td></tr>
+            <tr>
+                <td>
+                    <div style="text-align: right;">
+                        <form action="https://gtnhmultiblocks.pythonanywhere.com/privacy">
+                            <input type="submit" value="Privacy Policies, Terms, and Conditions">
+                        </form>
+                    </div>
+                    <!--<div style="text-align: left; margin: -22px auto">
+                        <form action="https://gtnhmultiblocks.pythonanywhere.com/privacy">
+                            <input type="submit" value="Privacy Policies, Terms, and Conditions">
+                        </form>
+                    </div>-->
+                </td>
+            </tr>
+            <!--<tr><td><h1></h1></td></tr>-->
+        </table>
+        <div id="secretText"></div>
+        <p>This calculator allows you to see the resource requirements for multiblocks in just a few clicks, and it also lets you customize the amount of I/O ports a multiblock has as well as compare the amount of resources you would need to build one! You can use the calculator by choosing a multiblock below and pressing "Select".</p>
+        <p>If you see a multiblock that has a Base Cost of 1x Giga Chad Token, that means it doesn't have a recipe yet. If you see Unknown in the machine list, that means the resource breakdown used a recipe that doesn't have a machine assigned to it yet. The screenshot for a multiblock may be missing, you will see a small default icon for it instead.</p>
+        <p>Make sure to choose recipies you have access to by pressing "Show/hide recipe selections" below. There are often more efficient recipies for things that are not selected by default.</p>
+        <p>Things that have 0 quantity do not get consumed in the recipe but they are required to complete it. Those items' cost is not broken down and they are normally marked with a yellow "NC" text in-game.</p>
+        <p>[FLUID] before the name of an ingridient indicates that it is a liquid or a gas and its amount is expressed in liters.</p>
+        <p>If you change your I/O selections the calculator won't update and you have to select the multiblock again.</p>
+        <p style="font-size: 12px">All screenshots taken are distributed under the GNU General Public License v3.0, however all icons, contents of screenshots, and related materials featured on this website are the property of their respective copyright holders. This site does not claim ownership of these materials. They are used here for informational and illustrative purposes only. All trademarks and copyrights belong to their respective owners. Font used: <a href="https://www.fontspace.com/f77-minecraft-font-f30628">F77 Minecraft by 123467</a></p>
+
+        <table style="margin: auto; border: 10px solid black; border-style: outset; display:none" id="errorTable"><tr style="background-color: #FF7863;"><td id="errorText" style="text-align: center; background-color: #FF7863; margin: 2px"></td></tr></table>
+        <!-- Hello I am Mr. Failsafe -->
+        <script>
+const urlParams = new URLSearchParams(window.location.search);
+if(urlParams.get('multiblockSelector') != null) {
+    window.location.replace('https://gtnhmultiblocks.pythonanywhere.com/?error=true');
+}
+///// Error displayer /////
+window.onerror = (a, b, c, d, e) => {
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> It appears that the website is malfunctioning. Please try again later. Error message: ["+String(a)+"], line number ["+String(c)+"], column number ["+String(d)+"], with source ["+String(b)+"] and error description ["+String(e)+"]. <form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+};
+if(urlParams.get('error') == "true") {
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> It appears that the website is malfunctioning. Please try again later. <form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+        </script>
+
+        <p>
+            <button onclick="toggleRecipeSel()">Show/hide recipe selections</button><br>
+            <table style="margin: auto; display: none;" id="recipeSelTable">
+                <caption><strong>Recipe Selections</strong></caption>
+                {{recipeSelections|safe}}
+            </table>
+        </p>
+
+        <p>
+            <table style="margin: auto;">
+                <caption><strong>Tier selection:</strong> (each tier will allow all previous tiers as well)</caption>
+
+                <tr>
+                    <td>Recipe tiers: </td>
+                    <td><button onclick="selectTier('0', 'recipe')" id="R0">Stone</button></td>
+                    <td><button onclick="selectTier('1', 'recipe')" id="R1">Steam</button></td>
+                    <td><button onclick="selectTier('2', 'recipe')" id="R2">LV</button></td>
+                    <td><button onclick="selectTier('3', 'recipe')" id="R3">MV</button></td>
+                    <td><button onclick="selectTier('4', 'recipe')" id="R4">HV</button></td>
+                    <td><button onclick="selectTier('5', 'recipe')" id="R5">EV</button></td>
+                    <td><button onclick="selectTier('6', 'recipe')" id="R6">IV</button></td>
+                    <td><button onclick="selectTier('7', 'recipe')" id="R7">LuV</button></td>
+                    <td><button onclick="selectTier('8', 'recipe')" id="R8">ZPM</button></td>
+                    <td><button onclick="selectTier('9', 'recipe')" id="R9">UV</button></td>
+                    <td><button onclick="selectTier('10', 'recipe')" id="R10">UHV</button></td>
+                    <td><button onclick="selectTier('11', 'recipe')" id="R11">UEV</button></td>
+                    <td><button onclick="selectTier('12', 'recipe')" id="R12">UIV</button></td>
+                    <td><button onclick="selectTier('13', 'recipe')" id="R13">UMV</button></td>
+                    <td><button onclick="selectTier('14', 'recipe')" id="R14">UXV</button></td>
+                    <td><button onclick="selectTier('15', 'recipe')" id="R15" disabled>MAX</button></td>
+                </tr>
+                <tr>
+                    <td>Energy Hatch tier: </td>
+                    <td></td>
+                    <td><button onclick="selectTier('1','energy')" id="E1" disabled>ULV</button></td>
+                    <td><button onclick="selectTier('2','energy')" id="E2">LV</button></td>
+                    <td><button onclick="selectTier('3','energy')" id="E3">MV</button></td>
+                    <td><button onclick="selectTier('4','energy')" id="E4">HV</button></td>
+                    <td><button onclick="selectTier('5','energy')" id="E5">EV</button></td>
+                    <td><button onclick="selectTier('6','energy')" id="E6">IV</button></td>
+                    <td><button onclick="selectTier('7','energy')" id="E7">LuV</button></td>
+                    <td><button onclick="selectTier('8','energy')" id="E8">ZPM</button></td>
+                    <td><button onclick="selectTier('9','energy')" id="E9">UV</button></td>
+                    <td><button onclick="selectTier('10','energy')" id="E10">UHV</button></td>
+                    <td><button onclick="selectTier('11','energy')" id="E11">UEV</button></td>
+                    <td><button onclick="selectTier('12','energy')" id="E12">UIV</button></td>
+                    <td><button onclick="selectTier('13','energy')" id="E13">UMV</button></td>
+                    <td><button onclick="selectTier('14','energy')" id="E14">UXV</button></td>
+                </tr>
+                <tr style="display:none" id="energyAmps">
+                    <td>Energy Hatch Amps:</td>
+                    <td><button onclick="selectEnergyAmps('2A','energyAmps')" id="E2A" disabled>2A</button></td>
+                    <td><button onclick="selectEnergyAmps('4A','energyAmps')" id="E4A">4A</button></td>
+                    <td><button onclick="selectEnergyAmps('16A','energyAmps')" id="E16A">16A</button></td>
+                    <td><button onclick="selectEnergyAmps('64A','energyAmps')" id="E64A">64A</button></td>
+                </tr>
+                <tr>
+                    <td>Wireless Energy Hatch tier: </td>
+                    <td></td>
+                    <td><button onclick="selectTier('1','energyW')" id="WE1">ULV</button></td>
+                    <td><button onclick="selectTier('2','energyW')" id="WE2">LV</button></td>
+                    <td><button onclick="selectTier('3','energyW')" id="WE3">MV</button></td>
+                    <td><button onclick="selectTier('4','energyW')" id="WE4">HV</button></td>
+                    <td><button onclick="selectTier('5','energyW')" id="WE5">EV</button></td>
+                    <td><button onclick="selectTier('6','energyW')" id="WE6">IV</button></td>
+                    <td><button onclick="selectTier('7','energyW')" id="WE7">LuV</button></td>
+                    <td><button onclick="selectTier('8','energyW')" id="WE8">ZPM</button></td>
+                    <td><button onclick="selectTier('9','energyW')" id="WE9">UV</button></td>
+                    <td><button onclick="selectTier('10','energyW')" id="WE10">UHV</button></td>
+                    <td><button onclick="selectTier('11','energyW')" id="WE11">UEV</button></td>
+                    <td><button onclick="selectTier('12','energyW')" id="WE12">UIV</button></td>
+                    <td><button onclick="selectTier('13','energyW')" id="WE13">UMV</button></td>
+                    <td><button onclick="selectTier('14','energyW')" id="WE14">UXV</button></td>
+                    <td><button onclick="selectTier('15','energyW')" id="WE15" disabled>MAX</button></td>
+                </tr>
+                <tr style="display:none" id="energyWAmps">
+                    <td>Wireless Energy Hatch Amps:</td>
+                    <td><button onclick="selectEnergyAmps('Default','energyAmps')" id="EDefault" disabled>Default</button></td>
+                    <td><button onclick="selectEnergyAmps('4A','energyAmps')" id="E4A">4A</button></td>
+                    <td><button onclick="selectEnergyAmps('16A','energyAmps')" id="E16A">16A</button></td>
+                    <td><button onclick="selectEnergyAmps('64A','energyAmps')" id="E64A">64A</button></td>
+                </tr>
+                <tr style="display:none" id="energyWAmps2">
+                    <td>Wireless Energy Hatch Amps:</td>
+                    <td><button onclick="selectEnergyAmps('Default','energyAmps')" id="EDefault" disabled>Default</button></td>
+                    <td><button onclick="selectEnergyAmps('4A','energyAmps')" id="E4A">4A</button></td>
+                    <td><button onclick="selectEnergyAmps('16A','energyAmps')" id="E16A">16A</button></td>
+                    <td><button onclick="selectEnergyAmps('64A','energyAmps')" id="E64A">64A</button></td>
+                    <td><button onclick="selectEnergyAmps('256A','energyAmps')" id="E256A">256A</button></td>
+                    <td><button onclick="selectEnergyAmps('1024A','energyAmps')" id="E1024A">1024A</button></td>
+                    <td><button onclick="selectEnergyAmps('4096AA','energyAmps')" id="E4096A">4096A</button></td>
+                    <td><button onclick="selectEnergyAmps('16384A','energyAmps')" id="E16384A">16384A</button></td>
+                    <td><button onclick="selectEnergyAmps('65536A','energyAmps')" id="E65536A">65536A</button></td>
+                    <td><button onclick="selectEnergyAmps('262144A','energyAmps')" id="E262144A">262144A</button></td>
+                    <td><button onclick="selectEnergyAmps('1048576A','energyAmps')" id="E1048576A">1048576A</button></td>
+                    <td><button onclick="selectEnergyAmps('4194304A','energyAmps')" id="E4194304A">4194304A</button></td>
+                    <td><button onclick="selectEnergyAmps('16777216A','energyAmps')" id="E16777216A">16777216A</button></td>
+                </tr>
+                <tr>
+                    <td>Dynamo Hatch tier: </td>
+                    <td></td>
+                    <td><button onclick="selectTier('1','dynamo')" id="D1">ULV</button></td>
+                    <td><button onclick="selectTier('2','dynamo')" id="D2">LV</button></td>
+                    <td><button onclick="selectTier('3','dynamo')" id="D3">MV</button></td>
+                    <td><button onclick="selectTier('4','dynamo')" id="D4">HV</button></td>
+                    <td><button onclick="selectTier('5','dynamo')" id="D5">EV</button></td>
+                    <td><button onclick="selectTier('6','dynamo')" id="D6">IV</button></td>
+                    <td><button onclick="selectTier('7','dynamo')" id="D7">LuV</button></td>
+                    <td><button onclick="selectTier('8','dynamo')" id="D8">ZPM</button></td>
+                    <td><button onclick="selectTier('9','dynamo')" id="D9">UV</button></td>
+                    <td><button onclick="selectTier('10','dynamo')" id="D10">UHV</button></td>
+                    <td><button onclick="selectTier('11','dynamo')" id="D11">UEV</button></td>
+                    <td><button onclick="selectTier('12','dynamo')" id="D12">UIV</button></td>
+                    <td><button onclick="selectTier('13','dynamo')" id="D13">UMV</button></td>
+                    <td><button onclick="selectTier('14','dynamo')" id="D14">UXV</button></td>
+                    <td><button onclick="selectTier('15','dynamo')" id="D15" disabled>Wireless</button></td>
+                </tr>
+                <tr style="display:none" id="dynamoAmps">
+                    <td>Dynamo Hatch Amps:</td>
+                    <td><button onclick="selectEnergyAmps('1A','dynamoAmps')" id="E1A" disabled>1A</button></td>
+                    <td style="display:none" class="dynamoAmps2"><button onclick="selectEnergyAmps('4A','dynamoAmps')" id="E4A">4A</button></td>
+                    <td style="display:none" class="dynamoAmps2"><button onclick="selectEnergyAmps('16A','dynamoAmps')" id="E16A">16A</button></td>
+                    <td style="display:none" class="dynamoAmps2"><button onclick="selectEnergyAmps('64A','dynamoAmps')" id="E64A">64A</button></td>
+                    <td style="display:none" id="dynamoBufferedAmps"><button onclick="selectEnergyAmps('B4A','dynamoAmps')" id="EB4A">Buffered (4A)</button></td>
+                </tr>
+                <tr>
+                    <td>Input Bus Hatch tier: </td>
+                    <td colspan="15"><form style="text-align: center" action="" id="inputBusDropdown">
+                        <select style="text-align: center" id="inputBusSelector">
+                            <option>Input Bus (Steam)</option>
+                            <option>Input Bus (ULV)</option>
+                            <option>Input Bus (LV)</option>
+                            <option>Input Bus (MV)</option>
+                            <option>Input Bus (HV)</option>
+                            <option>Input Bus (EV)</option>
+                            <option>Input Bus (IV)</option>
+                            <option>Input Bus (LuV)</option>
+                            <option>Input Bus (ZPM)</option>
+                            <option>Input Bus (UV)</option>
+                            <option>Input Bus (UHV)</option>
+                            <option>Advanced Stocking Input Bus (ME)</option>
+                            <option>Crafting Input Buffer (ME)</option>
+                            <option>Crafting Input Bus (ME)</option>
+                            <option>Crafting Input Proxy</option>
+                            <option>Stocking Input Bus (ME)</option>
+                            <option>Super Bus (I) (LV)</option>
+                            <option>Super Bus (I) (MV)</option>
+                            <option>Super Bus (I) (HV)</option>
+                            <option>Super Bus (I) (EV)</option>
+                            <option>Super Bus (I) (IV)</option>
+                            <option>Super Bus (I) (LuV)</option>
+                            <option>Super Bus (I) (ZPM)</option>
+                            <option>Super Bus (I) (UV)</option>
+                            <option>Super Bus (I) (UHV)</option>
+                            <option>Focus Input Bus</option>
+                            <option>Nanite Containment Bus</option>
+                            <option>Charging Bus (MV)</option>
+                            <option>Charging Bus (EV)</option>
+                            <option>Discharging Bus (MV)</option>
+                            <option>Discharging Bus (EV)</option>
+                            <option>Linked Input Bus</option>
+                            <option>Chisel Bus I</option>
+                            <option>Chisel Bus II</option>
+                            <option>Chisel Bus III</option>
+                        </select>
+                    </form></td>
+                </tr>
+                <tr>
+                    <td>Output Bus Hatch tier: </td>
+                    <td colspan="15"><form style="text-align: center" action="" id="outputBusDropdown">
+                        <select style="text-align: center" name="outputBusSelector" id="outputBusSelector">
+                            <option>Output Bus (Steam)</option>
+                            <option>Output Bus (ULV)</option>
+                            <option>Output Bus (LV)</option>
+                            <option>Output Bus (MV)</option>
+                            <option>Output Bus (HV)</option>
+                            <option>Output Bus (EV)</option>
+                            <option>Output Bus (IV)</option>
+                            <option>Output Bus (LuV)</option>
+                            <option>Output Bus (ZPM)</option>
+                            <option>Output Bus (UV)</option>
+                            <option>Output Bus (UHV)</option>
+                            <option>Output Bus (ME)</option>
+                            <option>Super Bus (O) (LV)</option>
+                            <option>Super Bus (O) (MV)</option>
+                            <option>Super Bus (O) (HV)</option>
+                            <option>Super Bus (O) (EV)</option>
+                            <option>Super Bus (O) (IV)</option>
+                            <option>Super Bus (O) (LuV)</option>
+                            <option>Super Bus (O) (ZPM)</option>
+                            <option>Super Bus (O) (UV)</option>
+                            <option>Super Bus (O) (UHV)</option>
+                            <option>Void Bus</option>
+                        </select>
+                    </form></td>
+                </tr>
+            </table>
+        </p>
+
+		<p>
+            <table style="margin: auto;">
+                <caption><strong>Choose a multiblock:</strong></caption>
+
+                <tr><td>
+                    <form action="" id="multiblockDropdown">
+                        <select name="multiblockSelector" id="multiblockSelector">
+                            {{options|safe}}
+                        </select>
+
+                        <input type="submit" value="Select">
+                    </form>
+                </tr></td>
+			</table>
+		</p>
+
+		<!--<p>
+		    <table style="margin: auto;">
+            	<caption><h2>Multiblock Selector</h2></caption>
+            	<tr>
+                	<td>Tier:</td>
+                    <td><button onclick="multiblockSelectionTier('Stone')" id="MSTStoneB">Stone</button></td>
+                    <td><button onclick="multiblockSelectionTier('Steam')" id="MSTSteamB" disabled>Steam</button></td>
+                    <td><button onclick="multiblockSelectionTier('LV')" id="MSTLVB">LV</button></td>
+                    <td><button onclick="multiblockSelectionTier('MV')" id="MSTMVB">MV</button></td>
+                    <td><button onclick="multiblockSelectionTier('HV')" id="MSTHVB">HV</button></td>
+                    <td><button onclick="multiblockSelectionTier('EV')" id="MSTEVB">EV</button></td>
+                    <td><button onclick="multiblockSelectionTier('IV')" id="MSTIVB">IV</button></td>
+                    <td><button onclick="multiblockSelectionTier('LuV')" id="MSTLuVB">LuV</button></td>
+                    <td><button onclick="multiblockSelectionTier('ZPM')" id="MSTZPMB">ZPM</button></td>
+                    <td><button onclick="multiblockSelectionTier('UV')" id="MSTUVB">UV</button></td>
+                    <td><button onclick="multiblockSelectionTier('UHV')" id="MSTUHVB">UHV</button></td>
+                    <td><button onclick="multiblockSelectionTier('UEV')" id="MSTUEVB">UEV</button></td>
+                    <td><button onclick="multiblockSelectionTier('UIV')" id="MSTUIVB">UIV</button></td>
+                    <td><button onclick="multiblockSelectionTier('UMV')" id="MSTUMVB">UMV</button></td>
+                    <td><button onclick="multiblockSelectionTier('UXV')" id="MSTUXVB">UXV</button></td>
+                </tr>
+                {{multiblockSelectionList|safe}}
+			</table>
+		</p>-->
+
+        <div style="display:none; text-align: center;" id="mainContainer">
+            <h1 id="titleText"></h1>
+			<br>
+
+            <img width=500 src="" id="mainImage">
+
+            <table id="costTable" style="margin: 2% auto;">
+            </table>
+
+            <table id="ioGroupTable" style="margin: auto; border-collapse: collapse;">
+            </table>
+
+            <p><table id="ioGroupWarningsTable" style="margin: auto; border-collapse: collapse;">
+            </table></p>
+
+            <table style="margin: 2% auto;">
+                <tr>
+                    <td>
+                        <button disabled onclick="exportshadowtheageGTNHCalc()">Export as a recipe for <a href="https://shadowtheage.github.io/gtnh">ShadowTheAge's GTNH Calculator</a></button>
+                    </td>
+                </tr>
+            </table>
+
+            <table id="wallshareTable" style="margin: 2% auto;">
+            </table>
+
+            <p id="specialWallshare"></p>
+
+            <table style="margin: auto; border: 10px solid black; border-style: outset; display:none" id="warningTable">
+                <tr style="background-color: #FF7863;">
+                    <td id="warningText" style="text-align: center; background-color: #FF7863; margin: 2px">
+                    </td>
+                </tr>
+            </table>
+
+            <table style="margin: 2% auto;"><tr id="tierTable"></tr></table>
+
+            <p>Calculating for <button onclick="changeMultiAmount(-1)">-</button><span id="multiAmount">1</span>x<button onclick="changeMultiAmount(1)">+</button> multiblocks</p>
+            <button onclick="calculate()">Calculate</button><br>
+    		<button onclick="calculateOne()">Calculate (first step only)</button><br>
+    		<button onclick="calculateOneR()">Calculate (recursive first step, breaks down everything that can be found in the base cost)</button><br>
+
+            <p id="output"></p>
+    	</div>
+
+    	<!-- Bottom ad-->
+        <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-4925617965272768"
+         crossorigin="anonymous"></script>
+        <ins class="adsbygoogle"
+             style="display:block"
+             data-ad-format="autorelaxed"
+             data-ad-client="ca-pub-4925617965272768"
+             data-ad-slot="8432142173"></ins>
+        <script>
+             (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+
+        <!-- Main script -->
+        <script>
+///// Global Variables /////
+var wallshareDefaultSet = [0,0,0,0,1,0,0,0,0];
+
+// Tier Selection
+let tierSelected = 1;       // Current selected tier for recipe calcs
+let tierRecipe = 15;        // Recipe maximum tier
+let tierEnergyHatch = 1;    // Energy Hatch tier
+let tierEnergyWHatch = 15;  // Wireless Energy Hatch tier
+let tierDynamoHatch = 15;   // Dynamo Hatch tier
+let tierInputBHatch = 1;    // Input Bus Hatch tier
+let tierOutputBHatch = 1;   // Output Bus Hatch tier
+
+// Multiblock Tier Selection
+let selectedMultiblockTier = 'Steam';  // Tier for the multiblock selector
+
+// IO Selection
+let inputBuses = "Input Bus (Steam)";
+let outputBuses = "Output Bus (Steam)";
+
+// IO Amp Selection
+let energyHatchAmps = "";
+
+// Messages
+let warning = "";
+
+// Elements
+var form = document.getElementById("multiblockDropdown");
+var outp = document.getElementById("output");
+
+// Special Variables
+rcBoilerParams = ["RCBLP", "RCBSF", 1, 1]
+
+
+///// Special Functions /////
+try {
+    function rcBoilerWidthChanged() {
+        if(rcBoilerParams[2] == 1) {
+            rcBoilerParams[3] = 1;
+        } else {
+            rcBoilerParams[3] = 2;
+        }
+        document.getElementById("RCB2").innerHTML = String(rcBoilerParams[3]);
+    }
+    function rcBoiler(n) {
+    	if(n[n.length-1] == "P") {
+        	document.getElementById("RCB"+n).disabled = true;
+      		document.getElementById(rcBoilerParams[0]).disabled = false;
+            rcBoilerParams[0] = "RCB"+n
+        } else if(n[n.length-1] == "F") {
+        	document.getElementById("RCB"+n).disabled = true;
+        	document.getElementById(rcBoilerParams[1]).disabled = false;
+            rcBoilerParams[1] = "RCB"+n
+        } else if(n == "-1" && rcBoilerParams[2] > 1) {
+        	rcBoilerParams[2] -= 1;
+            document.getElementById("RCB1").innerHTML = String(rcBoilerParams[2]);
+            rcBoilerWidthChanged();
+        } else if(n == "+1" && rcBoilerParams[2] < 3) {
+        	rcBoilerParams[2] += 1;
+            document.getElementById("RCB1").innerHTML = String(rcBoilerParams[2]);
+            rcBoilerWidthChanged();
+        } else if(n == "-2" && rcBoilerParams[2] > 1 && rcBoilerParams[3] > 2) {
+        	rcBoilerParams[3] -= 1;
+            document.getElementById("RCB2").innerHTML = String(rcBoilerParams[3]+1);  // The internal height I'm using is the tank height
+        // [Is increasing height] AND [Is not width=1 boiler] AND [[Height less than 3 if width=2 boiler] OR [Height less than 4 if width=3 boiler]]
+        } else if(n == "+2" && rcBoilerParams[2] > 1 && ((rcBoilerParams[2] == 2 && rcBoilerParams[3] < 3) || (rcBoilerParams[2] == 3 && rcBoilerParams[3] < 4))) {
+            rcBoilerParams[3] += 1;
+            document.getElementById("RCB2").innerHTML = String(rcBoilerParams[3]+1);  // The internal height I'm using is the tank height
+        }
+
+        // Special kind of updateCost() for RC Boilers
+        var table = document.getElementById("costTable");
+
+        // Delete old data by replacing everything with the selector
+        var lpDisabled = "";
+        var hpDisabled = "";
+        var sfDisabled = "";
+        var lfDisabled = "";
+        if(rcBoilerParams[0] == "RCBLP") {
+            lpDisabled = "disabled";
+        } else {
+            hpDisabled = "disabled";
+        }
+        if(rcBoilerParams[1] == "RCBSF") {
+            sfDisabled = "disabled";
+        } else {
+            lfDisabled = "disabled";
+        }
+        table.innerHTML = `<caption><strong>Base Cost:</strong></caption>
+<table>
+	<tr>
+    	<td style="text-align: center;"><button onclick='rcBoiler("LP")' id="RCBLP" `+lpDisabled+`>Low Pressure</button></td>
+        <td style="text-align: center;"><button onclick='rcBoiler("HP")' id="RCBHP" `+hpDisabled+`>High Pressure</button></td>
+	</tr>
+	<tr>
+    	<td style="text-align: center;"><button onclick='rcBoiler("SF")' id="RCBSF" `+sfDisabled+`>Solid Fuel</button></td>
+        <td style="text-align: center;"><button onclick='rcBoiler("LF")' id="RCBLF" `+lfDisabled+`>Liquid Fuel</button></td>
+	</tr>
+    <tr>
+    	<td colspan="2" style="text-align: center;"><button onclick='rcBoiler("-1")'>-</button> <span id="RCB1">`+String(rcBoilerParams[2])+`</span> block width <button onclick='rcBoiler("+1")'>+</button></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center;"><button onclick='rcBoiler("-2")'>-</button> <span id="RCB2">`+String(rcBoilerParams[2])+`</span> block height <button onclick='rcBoiler("+2")'>+</button></td>
+	</tr>
+</table>`;
+
+        // Add new data
+        table.innerHTML += '<!--RCBOILERSTART--><tr>';
+        if(rcBoilerParams[1] == "RCBLF") {
+            table.innerHTML += '<td class="center"></td><td class="center">'+String(rcBoilerParams[3]**2)+'x Liquid Fueled Firebox</td><td class="center"></td>';
+        } else {
+            table.innerHTML += '<td class="center"></td><td class="center">'+String(rcBoilerParams[3]**2)+'x Solid Fueled Firebox</td><td class="center"></td>';
+        }
+        if(rcBoilerParams[0] == "RCBHP") {
+            table.innerHTML += '<td class="center"></td><td class="center">'+String(rcBoilerParams[3]*rcBoilerParams[2])+'x High Pressure Boiler Tank</td><td class="center"></td>';
+        } else {
+            table.innerHTML += '<td class="center"></td><td class="center">'+String(rcBoilerParams[3]*rcBoilerParams[2])+'x Low Pressure Boiler Tank</td><td class="center"></td>';
+        }
+        table.innerHTML += '<!--RCBOILERSTOP--></tr>';
+    }
+    function rcBoilerGetCost() {
+        let tmpcost = {}
+        if(rcBoilerParams[1] == "RCBLF") {
+            tmpcost["Liquid Fueled Firebox"] = rcBoilerParams[3]**2;
+        } else {
+            tmpcost["Solid Fueled Firebox"] = rcBoilerParams[3]**2;
+        }
+        if(rcBoilerParams[0] == "RCBHP") {
+            tmpcost["High Pressure Boiler Tank"] = rcBoilerParams[3]*rcBoilerParams[2];
+        } else {
+            tmpcost["Low Pressure Boiler Tank"] = rcBoilerParams[3]*rcBoilerParams[2];
+        }
+        return tmpcost;
+    }
+} catch (err) {
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while confugring a Railcraft Boiler. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+
+try {
+///// Toggle functions /////
+function toggleRecipeSel() {
+    if(document.getElementById("recipeSelTable").style.display == "none") {
+        document.getElementById("recipeSelTable").style.display = "";
+    } else {
+        document.getElementById("recipeSelTable").style.display = "none";
+    }
+}
+} catch (err) {  // Big failsafe
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured in toggle functions. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+///// Change multi amount functions /////
+var multiAmount = 1;
+function changeMultiAmount(n) {
+    multiAmount += n;
+    if(multiAmount < 1) {
+        multiAmount = 1;
+    }
+    document.getElementById("multiAmount").innerHTML = String(multiAmount);
+}
+function multiplyCostByMachineNumber(initialCost) {
+    for (let i in initialCost) {
+        initialCost[i] *= multiAmount;
+    }
+}
+try {
+///// Helper functions /////
+function updateWarning() {
+    if(warning == "") {
+        document.getElementById("warningTable").style.display = "none";
+    } else {
+        document.getElementById("warningTable").style.display = "";
+    }
+    document.getElementById("warningText").innerHTML = warning;
+}
+function updateIOGroupWarnings() {
+    if(document.getElementById("titleText").innerHTML == "Electric Blast Furnace") {
+        maint = false
+        maint2 = false
+        muffler = false
+        energy = false
+        inBus = false
+        ouBus = false
+        for (let i = 1; i < 9; i++) {  // Top
+            tmp = document.getElementById('IOGroup_Top_'+String(i));
+            tmp = tmp.options[tmp.selectedIndex].text
+            if(tmp == "Muffler Hatch") {
+                muffler = true
+            }
+        }
+        for (let i = 1; i < 8; i++) {  // Bottom
+            tmp = document.getElementById('IOGroup_Bottom_'+String(i));
+            tmp = tmp.options[tmp.selectedIndex].text
+            if(tmp == "Output Bus") {
+                ouBus = true
+            } else if(tmp == "Input Bus") {
+                inBus = true
+            } else if(tmp == "Energy Hatch") {
+                energy = true
+            } else if(tmp == "Maintenance Hatch") {
+                if(maint) {
+                    maint2 = true
+                } else {
+                    maint = true
+                }
+            }
+        }
+        var warningTable = document.getElementById("ioGroupWarningsTable");
+        warningTable.innerHTML = "";
+        if(inBus && inputBuses == "Input Bus (Steam)") {
+            warningTable.innerHTML += '<tr><td style="color: red;">This multiblock does not support steam input buses.</td></tr>';
+        }
+        if(ouBus && outputBuses == "Output Bus (Steam)") {
+            warningTable.innerHTML += '<tr><td style="color: red;">This multiblock does not support steam output buses.</td></tr>';
+        }
+        if(!maint) {
+            warningTable.innerHTML += '<tr><td style="color: red;">This multiblock requires a maintenance hatch to form.</td></tr>';
+        }
+        if(maint2) {
+            warningTable.innerHTML += '<tr><td style="color: red;">You cannot have more than one maintenance hatch.</td></tr>';
+        }
+        if(!muffler) {
+            warningTable.innerHTML += '<tr><td style="color: red;">This multiblock requires a muffler hatch to form.</td></tr>';
+        }
+        if(!energy) {
+            warningTable.innerHTML += '<tr><td style="color: red;">This multiblock requires at least one energy hatch to form.</td></tr>';
+        }
+        document.getElementById("ioGroupWarningsTable")
+    }
+}
+function updateSelections() {
+    inputBuses = document.getElementById("inputBusSelector").options[document.getElementById("inputBusSelector").selectedIndex].text;
+    outputBuses = document.getElementById("outputBusSelector").options[document.getElementById("outputBusSelector").selectedIndex].text;
+}
+function getMaxTierOfMultiblock(e) {
+    if(e == "Dimensionally Transcendent Plasma Forge") {
+        return 4;
+    } else if(e == "Water Pump") {
+        return 2;
+    } else if(e == "Steam Hearth") {
+        return 2;
+    } else if(e == "Steam Grinder") {
+        return 2;
+    } else if(e == "Steam Squasher") {
+        return 2;
+    } else if(e == "Steam Purifier") {
+        return 2;
+    } else if(e == "Steam Separator") {
+        return 2;
+    } else if(e == "Steam Blender") {
+        return 2;
+    } else if(e == "Steam Presser") {
+        return 2;
+    } else if(e == "Steam Fuser") {
+        return 2;
+    } else if(e == "Electric Blast Furnace") {
+        return 1; // Coils...
+    } else if(e == "Electric Air Filter") {
+        return 3;
+    } else if(e == "Fluid Drilling Rig") {
+        return 5;
+    } else if(e == "Large Boiler") {
+        return 4;
+    } else if(e == "Concrete Backfiller") {
+        return 2;
+    } else if(e == "Large Steam Turbine") {
+        return ["LST","LST-HP","LST-SC"];
+    } else if(e == "XL Turbo Steam Turbine") {
+        return ["Steam","HP","SC"];
+    } else if(e == "Solar Factory") {
+        return 3;
+    } else if(e == "Mega Vacuum Freezer") {
+        return 2;
+    } else if(e == "Ore Drilling Plant") {
+        return 4;
+    } else if(e == "Industrial Maceration Stack") {
+        return 2;
+    } else if(e == "Solid-Oxide Fuel Cell") {
+        return 2;
+    } else if(e == "Assembly Line") {
+        return 1;  // idk lol
+    } else if(e == "Advanced Assembly Line") {
+        return 1;  // idk lol
+    } else if(e == "Precise Auto-Assembler MT-3662") {
+        return 5;
+    } else if(e == "Volcanus") {
+        return 1;  // Coils...
+    } else if(e == "Fusion Reactor") {
+        return 5;
+    } else if(e == "Compact Fusion Reactor") {
+        return 5;
+    } else if(e == "Circuit Assembly Line") {
+        return 1;  // idk lol
+    } else if(e == "High Current Industrial Arc Furnace") {
+        return 3;
+    } else if(e == "Void Miner") {
+        return 3;
+    } else if(e == "Component Assembly Line") {
+        return 1;  // no
+    } else if(e == "PCB Factory") {
+        return 3;
+    } else if(e == "Space Elevator") {
+        return ["Normal", "Extended"];  // maybe it has tiers too idk
+    } else if(e == "Nano Forge") {
+        return 4;
+    } else if(e == "Electric Implosion Compressor") {
+        return 5;
+    } else if(e == "Draconic Evolution Crafter") {
+        return 5;
+    } else if(e == "Quantum Force Transformer") {
+        return 4;
+    } else if(e == "Exo-Foundry") {
+        return 3;
+    } else if(e == "Eye of Harmony") {
+        return 1;  // NO
+    } else {
+        return 1;
+    }
+}
+function getCostOfMultiblock(e, tier) {
+    var table = document.getElementById("costTable");
+    try {
+        if(false) {
+            return -1; // Never gets called
+        } else if(e == "Railcraft Boiler") {  // Special-case multiblocks
+            return rcBoilerGetCost();
+        } {{multiblockCostStr|safe}}
+        return {"Giga Chad Token": 1};
+    } catch (err) {  // Big failsafe
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured when getting the cost for multiblock "+String(e)+" with tier "+String(tier)+". The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function getMultiblockImage(e, tier) {
+    if(typeof(tier) == "number") {
+        if(tier > 1) {
+            return "https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/screenshots/"+e+"T"+String(tier)+".png";
+        } else {
+            return "https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/screenshots/"+e+".png";
+        }
+    } else {
+        return "https://raw.githubusercontent.com/Chitak985/gtnh-multiblocks/refs/heads/main/screenshots/"+e+"T"+String(tier)+".png";
+    }
+}
+function getMaxMultiblockIO(e) {
+    var table = document.getElementById("costTable");
+    try {
+        if(false) {
+            return -1;  // Never gets called
+    	}{{maxIOStr|safe}} else {
+    	    return 0;   // Should never get called either
+    	}
+    } catch (err) {  // Big failsafe
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured when getting the maximum IO for multiblock "+String(e)+". The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function updateCost(multiblockName, tier) {
+    var table = document.getElementById("costTable");
+    var inputHatchCount = 1;
+    updateSelections();
+    table.innerHTML = "<caption><strong>Base Cost:</strong></caption>";
+    warning = "";
+    if(multiblockName == "Railcraft Boiler") {  // Special-case multiblocks
+        table.innerHTML += `
+<table style="margin: auto;">
+	<tr>
+    	<td style="text-align: center;"><button onclick='rcBoiler("LP")' id="RCBLP" disabled>Low Pressure</button></td>
+        <td style="text-align: center;"><button onclick='rcBoiler("HP")' id="RCBHP">High Pressure</button></td>
+	</tr>
+	<tr>
+    	<td style="text-align: center;"><button onclick='rcBoiler("SF")' id="RCBSF" disabled>Solid Fuel</button></td>
+        <td style="text-align: center;"><button onclick='rcBoiler("LF")' id="RCBLF">Liquid Fuel</button></td>
+	</tr>
+    <tr>
+    	<td colspan="2" style="text-align: center;"><button onclick='rcBoiler("-1")'>-</button> <span id="RCB1">1</span> block width <button onclick='rcBoiler("+1")'>+</button></td>
+    </tr>
+    <tr>
+        <td colspan="2" style="text-align: center;"><button onclick='rcBoiler("-2")'>-</button> <span id="RCB2">1</span> block height <button onclick='rcBoiler("+2")'>+</button></td>
+	</tr>
+</table>`
+        try {
+            var tmp2 = getCostOfMultiblock(multiblockName, tier);
+            for (let i in tmp2) {
+                table.innerHTML += '<tr><td class="center"></td><td class="center">'+String(tmp2[i])+'x '+i+'</td><td class="center"></td></tr>'
+            }
+        } catch (err) {
+            document.getElementById("errorTable").style.display = "";
+            document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while adding the multiblock cost for a Railcraft Boiler to HTML. The error is "+String(err.stack)+" <form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+        }
+    } else {    // Ordinary multiblocks
+        try {
+            if(false) {
+                console.log("wtf");  // Never triggers
+            }{{ioStr|safe}}
+        } catch (err) {
+            document.getElementById("errorTable").style.display = "";
+            document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while adding IO ports to HTML. The error is "+String(err.stack)+" <form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+        }
+        try {
+            var tmp2 = getCostOfMultiblock(multiblockName, tier);
+            for (let i in tmp2) {
+                table.innerHTML += '<tr><td class="center"></td><td class="center">'+String(tmp2[i])+'x '+i+'</td><td class="center"></td></tr>'
+            }
+        } catch (err) {
+            document.getElementById("errorTable").style.display = "";
+            document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while adding the static multiblock cost to HTML. The error is "+String(err.stack)+" <form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+        }
+    }
+    updateWarning();
+}
+function numberToTier(n) {
+    if(n == 15) { return "MAX"; }
+    else if(n == 14) { return "UXV"; }
+    else if(n == 13) { return "UMV"; }
+    else if(n == 12) { return "UIV"; }
+    else if(n == 11) { return "UEV"; }
+    else if(n == 10) { return "UHV"; }
+    else if(n == 9) { return "UV"; }
+    else if(n == 8) { return "ZPM"; }
+    else if(n == 7) { return "LuV"; }
+    else if(n == 6) { return "IV"; }
+    else if(n == 5) { return "EV"; }
+    else if(n == 4) { return "HV"; }
+    else if(n == 3) { return "MV"; }
+    else if(n == 2) { return "LV"; }
+    else if(n == 1) { return "ULV"; }
+    else { return "Unknown"; }
+}
+function multiblockSelectionTier(n) {
+    let x = document.getElementsByClassName("MST"+selectedMultiblockTier);
+    for (let i = 0; i < x.length; i++) {
+        x.item(i).style.display = "none";
+    }
+    document.getElementById("MST"+selectedMultiblockTier+"B").disabled = false;
+    selectedMultiblockTier = n;
+    x = document.getElementsByClassName("MST"+selectedMultiblockTier);
+    for (let i = 0; i < x.length; i++) {
+        x.item(i).style.display = "";
+    }
+    document.getElementById("MST"+selectedMultiblockTier+"B").disabled = true;
+}
+function getInternalBlockID(n) {
+    if(n == "Bricked Blast Furnace") {
+        return "i:gregtech:gt.blockmachines:140";
+    } else if(n == "Firebricks") {
+        return "i:gregtech:gt.blockcasings4:15";
+    }
+}
+// thanks to https://stackoverflow.com/questions/45831191/generate-and-download-file-from-js
+function exportshadowtheageGTNHCalc() {
+    var text = `{
+  "name": "`+document.getElementById("titleText").innerHTML+` Cost Breakdown",
+  "products": [`;
+    let totalCost = getCostOfMultiblock(document.getElementById("titleText").innerHTML, tierSelected);
+    getIOCalculations(totalCost);
+    for (let x in totalCost) {
+        text += `
+    {
+      "goodsId": "`+getInternalBlockID(x)+`",
+      "amount": `+String(totalCost[x])+`
+    },`;
+    }
+    text = text.substring(0,text.length-1);
+    text += `
+  ],
+  "rootGroup": {
+    "type": "recipe_group",
+    "links": {},
+    "elements": [],
+    "collapsed": false,
+    "name": "Group"
+  },
+  "settings": {
+    "minVoltage": 0,
+    "timeUnit": "min"
+  }
+}`;
+    var filename = "hello.txt";
+
+    download(filename, text);
+}
+// thanks to https://stackoverflow.com/questions/45831191/generate-and-download-file-from-js
+function download(filename, text) {
+    var element = document.createElement('a');
+    element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
+    element.setAttribute('download', filename);
+
+    element.style.display = 'none';
+    document.body.appendChild(element);
+
+    element.click();
+
+    document.body.removeChild(element);
+}
+function assig(obj,val,n) {
+    if(val in obj) {
+        obj[val] += n;
+    } else {
+        obj[val] = n;
+    }
+}
+function textifyObj(obj) {
+	let text = '<table style="margin: 2% auto;">';
+    for (let x in obj) {
+    	text += '<tr><td style="text-align: left;">'+String(x)+": "+String(obj[x])+"</td></tr>";
+    }
+	return text+"</table>";
+}
+function textifyList(lis) {
+	let text = '<table style="margin: 2% auto;">';
+    for (let x in lis) {
+    	text += '<tr><td style="text-align: left;">'+String(lis[x])+"</td></tr>";
+    }
+	return text+"</table>";
+}
+} catch (err) {  // Big failsafe
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured in helper functions. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+
+try {
+///// Constructors /////
+// Example disableSet: [0,0,0,0,1,0,0,0,0] (length = 9)
+// 0 0 0
+// 0 1 0
+// 0 0 0
+function newWallshareTable(x, y) {
+    tmp = "";
+    for (let i = 0; i < x; i++) {
+        tmp += "<tr>";
+        for (let i2 = 0; i < y; i++) {
+            tmp += "<td id='WS|"+String(i)+"|"+String(i2)+"'>0</td>";
+        }
+        tmp += "</tr>";
+    }
+    return tmp;
+    /*wallshareDefaultSet = disableSet;
+    disableSetStr = disableSet.map(function(n) {if(n == 1) {return "disabled";} else {return "";} });
+    let e = "<caption><strong>Wallsharing (side view):</strong></caption>";
+    e += '<tr><td class="center"><button id="wallshare1" onclick="wallshareSel(0,1)" '+disableSetStr[0]+'>Top-Left</button></td><td class="center"><button id="wallshare2" onclick="wallshareSel(0,2)" '+disableSetStr[1]+'>Top</button></td><td class="center"><button id="wallshare3" onclick="wallshareSel(0,3)" '+disableSetStr[2]+'>Top-Right</button></td></tr>';
+    e += '<tr><td class="center"><button id="wallshare4" onclick="wallshareSel(0,4)" '+disableSetStr[3]+'>Left</button></td><td class="center"><button id="wallshare5" onclick="wallshareSel(0,5)" '+disableSetStr[4]+'>Center</button></td><td class="center"><button id="wallshare6" onclick="wallshareSel(0,6)" '+disableSetStr[5]+'>Right</button></td></tr>';
+    e += '<tr><td class="center"><button id="wallshare7" onclick="wallshareSel(0,7)" '+disableSetStr[6]+'>Bottom-Left</button></td><td class="center"><button id="wallshare8" onclick="wallshareSel(0,8)" '+disableSetStr[7]+'>Bottom</button></td><td class="center"><button id="wallshare9" onclick="wallshareSel(0,9)" '+disableSetStr[8]+'>Bottom-Right</button></td></tr>';
+    e += '<tr><td class="center"></td><td class="center"><button onclick="wallshareReset()">Reset</button></td><td class="center"></td></tr>'
+    return e;*/
+}
+} catch (err) {  // Big failsafe
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured in constructors. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+
+///// Tier choice /////
+try {
+function selectTier(e, typeT) {
+    if(typeT == "recipe") {
+        document.getElementById("R"+String(tierRecipe)).disabled = false;
+        document.getElementById("R"+String(e)).disabled = true;
+        tierRecipe = parseInt(e);
+    } else if(typeT == "energy") {
+        document.getElementById("E"+String(tierEnergyHatch)).disabled = false;
+        document.getElementById("E"+String(e)).disabled = true;
+        tierEnergyHatch = parseInt(e);
+        if(tierEnergyHatch >= 1 && tierEnergyHatch <= 4) {
+            document.getElementById("energyAmps").style.display = "none";
+        } else {
+            document.getElementById("energyAmps").style.display = "";
+        }
+    } else if(typeT == "energyW") {
+        document.getElementById("WE"+String(tierEnergyWHatch)).disabled = false;
+        document.getElementById("WE"+String(e)).disabled = true;
+        tierEnergyWHatch = parseInt(e);
+        if(tierEnergyWHatch == 14) {
+            document.getElementById("energyWAmps").style.display = "none";
+            document.getElementById("energyWAmps2").style.display = "";
+        } else if(tierEnergyWHatch >= 1 && tierEnergyWHatch <= 4) {
+            document.getElementById("energyWAmps").style.display = "none";
+            document.getElementById("energyWAmps2").style.display = "none";
+        } else if(tierEnergyWHatch == 15) {
+            document.getElementById("energyWAmps").style.display = "none";
+            document.getElementById("energyWAmps2").style.display = "none";
+        } else {
+            document.getElementById("energyWAmps").style.display = "";
+            document.getElementById("energyWAmps2").style.display = "none";
+        }
+    } else if(typeT == "inputB") {
+        document.getElementById("IB"+String(tierInputBHatch)).disabled = false;
+        document.getElementById("IB"+String(e)).disabled = true;
+        tierInputBHatch = parseInt(e);
+    } else if(typeT == "dynamo") {
+        document.getElementById("D"+String(tierDynamoHatch)).disabled = false;
+        document.getElementById("D"+String(e)).disabled = true;
+        tierDynamoHatch = parseInt(e);
+    } else if(typeT == "outputB") {
+        document.getElementById("OB"+String(tierOutputBHatch)).disabled = false;
+        document.getElementById("OB"+String(e)).disabled = true;
+        tierOutputBHatch = parseInt(e);
+    }
+}
+} catch (err) {  // Big failsafe
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured in tier choice functions. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+
+///// Tier-related choice /////
+try {
+function selectEnergyAmps(e, typeT) {
+    if(typeT = "energyAmps") {
+        energyHatchAmps = typeT
+    }
+}
+} catch (err) {  // Big failsafe
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured in tier-related choices. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+
+try {
+///// Multiblock choice /////
+form.addEventListener("submit", submitted);
+/////////////////////////////////////////////////////////////////////////////////////////////////////////// MAIN FUNCTION (ONLOAD)
+function submitted(e) {
+    // Override submit and extract submitted value //
+    e.preventDefault();
+    const data = new FormData(form);
+    const custom_path = Array.from(data)
+    .map(([_, value]) => value);
+
+    // Show output //
+    var container = document.getElementById('mainContainer');
+    container.style.display = '';
+
+    // Set title and image //
+    document.getElementById("titleText").innerHTML = custom_path;
+    document.getElementById("mainImage").src = getMultiblockImage(custom_path, getMaxTierOfMultiblock(custom_path));
+
+    // Special cases //
+    rcBoilerParams = ["RCBLP", "RCBSF", 1, 1]  // Refresh in case was modified
+
+    // Cost table //
+    updateCost(custom_path, 1);
+
+    // Wallsharing table //
+    // This does NOT work and it is a BAD idea
+    /*var Wtable = document.getElementById("wallshareTable");
+    if(custom_path == "Steam Grinder") {
+        Wtable.innerHTML = newWallshareTable(9,9);
+        document.getElementById("WS|3|3").innerHTML = "1";
+        document.getElementById("WS|3|4").innerHTML = "1";
+        document.getElementById("WS|3|5").innerHTML = "1";
+        document.getElementById("WS|4|3").innerHTML = "1";
+        document.getElementById("WS|4|4").innerHTML = "1";
+        document.getElementById("WS|4|5").innerHTML = "1";
+        document.getElementById("WS|5|3").innerHTML = "1";
+        document.getElementById("WS|5|4").innerHTML = "1";
+        document.getElementById("WS|5|5").innerHTML = "1";
+    }*/
+
+    document.getElementById("specialWallshare").innerHTML = getSpecialWallshare(custom_path);
+
+    // Tier Table //
+    var Ttable = document.getElementById("tierTable");
+    Ttable.innerHTML = "";
+    if(typeof(getMaxTierOfMultiblock(custom_path)) == "number") {
+        if(getMaxTierOfMultiblock(custom_path) > 1) {
+            Ttable.innerHTML = "";
+            for (let i = 0; i < getMaxTierOfMultiblock(custom_path); i++) {
+                Ttable.innerHTML += '<td><button onClick="multiblockTier(\''+String(i+1)+'\',false)" id="MT'+String(i+1)+'">Tier '+String(i+1)+'</button></td>'
+            }
+            document.getElementById("MT1").disabled = true;
+        }
+    } else {
+        if(getMaxTierOfMultiblock(custom_path).length > 1) {
+            Ttable.innerHTML = "";
+            for (let i in getMaxTierOfMultiblock(custom_path)) {
+                Ttable.innerHTML += '<td><button onClick="multiblockTier(\''+String(i)+'\',true)" id="MT'+String(i)+'">'+String(i)+'</button></td>'
+            }
+            document.getElementById("MT"+getMaxTierOfMultiblock(custom_path)[0]).disabled = true;
+        }
+    }
+
+    // IO Group Logic //
+    var IOGroupTable = document.getElementById("ioGroupTable");
+    if(custom_path == "Electric Blast Furnace") {  // Rewrite in python maybe?????
+        IOGroupTable.innerHTML += `<tr>
+        <td>Top IO #1:</td>
+        <td>
+            <form style="text-align: center;" action="">
+                <select style="text-align: center" id="IOGroup_Top_1" onchange="updateIOGroupWarnings()">
+                    <option>Muffler Hatch</option>
+                </select>
+            </form>
+        </td>
+    </tr>`
+        for (let i = 2; i < 9; i++) {
+            IOGroupTable.innerHTML += `<tr>
+        <td>Top IO #`+String(i)+`:</td>
+        <td>
+            <form style="text-align: center;" action="">
+                <select style="text-align: center" id="IOGroup_Top_`+String(i)+`" onchange="updateIOGroupWarnings()">
+                    <option>Casing</option>
+                    <option>Output Hatch</option>
+                </select>
+            </form>
+        </td>
+    </tr>`
+        }
+        for (let i = 1; i < 8; i++) {
+            IOGroupTable.innerHTML += `<tr>
+        <td>Bottom IO #`+String(i)+`:</td>
+        <td>
+            <form style="text-align: center;" action="">
+                <select style="text-align: center" id="IOGroup_Bottom_`+String(i)+`" onchange="updateIOGroupWarnings()">
+                    <option>Casing</option>
+                    <option>Energy Hatch</option>
+                    <option>Input Bus</option>
+                    <option>Output Bus</option>
+                    <option>Input Hatch</option>
+                    <option>Output Hatch</option>
+                    <option>Maintenance Hatch</option>
+                </select>
+            </form>
+        </td>
+    </tr>`
+        }
+        updateIOGroupWarnings();
+    }
+}
+} catch (err) {  // Big failsafe
+    document.getElementById("errorTable").style.display = "";
+    document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured in the multiblock choice module. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+}
+
+///// Main code /////
+// Recipe selections //
+var selectionsR = {{recipeSelDict|safe}}};
+
+function selectR(groupS, itemS) {
+    document.getElementsByClassName(groupS)[0].disabled = false;
+    document.getElementsByClassName(groupS)[1].disabled = false;
+    if(document.getElementsByClassName(groupS)[2]){
+   		document.getElementsByClassName(groupS)[2].disabled = false;
+    }
+    document.getElementById(groupS+"."+itemS).disabled = true;
+	selectionsR[groupS] = itemS;
+}
+
+// Wallshare choice //
+var wallshareTable = [0, [false,false,false,false,false,false,false,false,false]];
+var wallshareCasingModifier = 0;
+var wallshareMaxIHModifier = 0;
+var wallshareGroupCasingModifier = {};
+// typeW: 0 = Side view, 1 = Top view
+// indexW: 1 2 3
+//         4 5 6
+//         7 8 9
+function wallshareSel(typeW, indexW) {
+    document.getElementById("wallshare"+String(indexW)).disabled = true;
+    wallshareTable[0] = typeW;
+    wallshareTable[1][indexW] = true;
+}
+function wallshareReset() {
+    for (let i = 0; i < 9; i++) {
+        if(wallshareDefaultSet[i] == 1) {
+            document.getElementById(String(i+1)).disabled = true;
+        } else {
+            document.getElementById(String(i+1)).disabled = false;
+        }
+    }
+    wallshareTable[1] = [false,false,false,false,false,false,false,false,false];
+}
+function getSpecialWallshare(n) { // finish this later and use it in main
+    if(n == "Fusion Reactor") {
+        return '<button id="SWa1" onclick="specialWallshare(\'topCasing\')">Wallshare top casing (32 casing)</button><button id="SWa2" onclick="specialWallshare(\'bottomCasing\')">Wallshare bottom casing (32 casing)</button><button onclick="resetSpecialWallshare()">Reset wallsharing</button>';
+    } else if(n == "Electric Blast Furnace") {
+        return '<button id="SWa1" onclick="specialWallshare(\'topCasing\')">Wallshare top casing (8 casing + muffler hatch)</button><button onclick="resetSpecialWallshare()">Reset wallsharing</button>';
+    } else {
+        return "";
+    }
+}
+function specialWallshare(n) {
+    try {
+        if(document.getElementById("titleText").innerHTML == "Fusion Reactor") {
+            if(n == "topCasing") {
+                wallshareCasingModifier -= 32;
+                wallshareMaxIHModifier -= 8;
+                document.getElementById("SWa1").disabled = true;
+                updateCost(document.getElementById("titleText").innerHTML, tierSelected);
+            } else if(n == "bottomCasing") {
+                wallshareCasingModifier -= 32;
+                wallshareMaxIHModifier -= 8;
+                document.getElementById("SWa2").disabled = true;
+                updateCost(document.getElementById("titleText").innerHTML, tierSelected);
+            }
+        } else if(document.getElementById("titleText").innerHTML == "Electric Blast Furnace") {
+            if(n == "topCasing") {
+                assig(wallshareGroupCasingModifier, "Top", -8)
+                document.getElementById("SWa1").disabled = true;
+                for (let i = 1; i < 9; i++) {
+                    document.getElementById("IOGroup_Top_"+String(i)).disabled = true;
+                }
+                updateCost(document.getElementById("titleText").innerHTML, tierSelected);
+            }
+        }
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while applying special wallsharing. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function resetSpecialWallshare() {
+    wallshareCasingModifier = 0;
+    wallshareMaxIHModifier = 0;
+    wallshareGroupCasingModifier = {};
+    if(document.getElementById("titleText").innerHTML == "Fusion Reactor") {
+        document.getElementById("SWa1").disabled = false;
+        document.getElementById("SWa2").disabled = false;
+        updateCost(document.getElementById("titleText").innerHTML, tierSelected);
+    } else if(document.getElementById("titleText").innerHTML == "Electric Blast Furnace") {
+        document.getElementById("SWa1").disabled = false;
+        for (let i = 1; i < 9; i++) {
+            document.getElementById("IOGroup_Top_"+String(i)).disabled = false;
+        }
+        updateCost(document.getElementById("titleText").innerHTML, tierSelected);
+    }
+}
+
+// Multiblock Tier Choice //
+function multiblockTier(tier,notNumber) {
+    if(true) {  // !notNumber
+        for (let i = 0; i < getMaxTierOfMultiblock(document.getElementById("titleText").innerHTML); i++) {
+            document.getElementById("MT"+String(i+1)).disabled = false;
+        }
+        document.getElementById("MT"+String(tier)).disabled = true;
+        tierSelected = parseInt(tier);
+        updateCost(document.getElementById("titleText").innerHTML, tierSelected);
+    } //else {
+    /*    for (let i in getMaxTierOfMultiblock(document.getElementById("titleText").innerHTML)) {
+            document.getElementById("MT"+String(i)).disabled = false;
+        }
+        document.getElementById("MT"+String(tier)).disabled = true;
+        tierSelected = tier;
+        updateCost(document.getElementById("titleText").innerHTML, tierSelected);
+    }*/
+}
+
+function getMinMultiblockIO(multiName, hatchName) {
+    {{minIOStr|safe}}
+}
+
+// IO port and casing calculation //
+function Lclass(classStr) {
+    try {
+        var io = document.getElementById(classStr);
+        // Special cases
+        if(document.getElementById("titleText").innerHTML == "Compact Fusion Reactor") {
+            if(classStr == "energy") {
+                var casing0 = document.getElementById("casing0");
+                casing0.innerHTML = String(Number(casing0.innerHTML) + 1);
+            } else {
+                var casing1 = document.getElementById("casing1");
+                casing1.innerHTML = String(Number(casing1.innerHTML) + 1);
+            }
+            io.innerHTML = String(Number(io.innerHTML) - 1);
+        } else {
+            // Default case
+            if(Number(io.innerHTML) > getMinMultiblockIO(document.getElementById("titleText").innerHTML, classStr)) {
+                var io = document.getElementById(classStr);
+                var casing = document.getElementById("casing");
+                io.innerHTML = String(Number(io.innerHTML) - 1);
+                casing.innerHTML = String(Number(casing.innerHTML) + 1);
+            }
+        }
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while decreasing IO "+classStr+". The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function Msteam() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(false){
+            console.log("wtf");
+        }{{steamHatchStr|safe}}
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of steam hatches. The error is "+String(err.stack)+" <form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function MinputB() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(false){
+            console.log("wtf");
+        }{{IBusStr|safe}}
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of input buses. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function MoutputB() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(false){
+            console.log("wtf");
+        }{{OBusStr|safe}}
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of output buses. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function Mdynamo() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(false){
+            console.log("wtf");
+        }{{DynamoStr|safe}}
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of dynamo hatches. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function Menergy() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(typeof(maxIO) != "number") {
+            maxIO = maxIO["Energy Hatch"][1]
+        }
+        if(false){
+            console.log("wtf");
+        }{{EnergyStr|safe}} else if(document.getElementById("titleText").innerHTML == "Compact Fusion Reactor") {
+            var energy = document.getElementById("energy");
+            var casing0 = document.getElementById("casing0");
+            if(Number(energy.innerHTML) < maxIO) {
+                energy.innerHTML = String(Number(energy.innerHTML) + 1);
+                casing0.innerHTML = String(Number(casing0.innerHTML) - 1);
+            }
+        }
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of energy hatches. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function MIhatch() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(typeof(maxIO) != "number") {
+            maxIO = maxIO["Input Hatch"][1]
+        }
+        if(false) {
+            console.log("wtf");
+        }{{IhatchStr|safe}} else if(document.getElementById("titleText").innerHTML == "Compact Fusion Reactor") {
+            var Ihatch = document.getElementById("Ihatch");
+            var casing1 = document.getElementById("casing1");
+            if(Number(Ihatch.innerHTML) < maxIO) {
+                Ihatch.innerHTML = String(Number(Ihatch.innerHTML) + 1);
+                casing1.innerHTML = String(Number(casing1.innerHTML) - 1);
+            }
+        }
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of input hatches. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function MOhatch() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(typeof(maxIO) != "number") {
+            maxIO = maxIO["Output Hatch"][1]
+        }
+        if(false) {
+            console.log("wtf");
+        }{{OhatchStr|safe}} else if(document.getElementById("titleText").innerHTML == "Compact Fusion Reactor") {
+            var Ohatch = document.getElementById("Ohatch");
+            var casing1 = document.getElementById("casing1");
+            if(Number(Ohatch.innerHTML) < maxIO) {
+                Ohatch.innerHTML = String(Number(Ohatch.innerHTML) + 1);
+                casing1.innerHTML = String(Number(casing1.innerHTML) - 1);
+            }
+        }
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of output hatches. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+function MChousing() {
+    try {
+        var maxIO = getMaxMultiblockIO(document.getElementById("titleText").innerHTML);
+        if(false) {
+            console.log("wtf");
+        }{{ChousingStr|safe}}
+    } catch (err) {  // How many failsafes? YES
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while increasing the number of output hatches. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+
+// Tool use variables //
+var sawUse = 0;
+var hammerUse = 0;
+var softMalletUse = 0;
+var screwdriverUse = 0;
+var wrenchUse = 0;
+var fileUse = 0;
+var crowbarUse = 0;
+var wirecutterUse = 0;
+var mortarUse = 0;
+var solderingUse = 0;
+var angleGrinderUse = 0;
+var automaticSnipsUse = 0;
+var buzzsawUse = 0;
+var formBrickUse = 0;
+
+function convertToolUses(initialCost, secondaryCost) {
+    for (let i in initialCost) {
+        if(i == "{Saw Use}") {
+            sawUse += initialCost[i]
+        } else if(i == "{Hammer Use}") {
+            hammerUse += initialCost[i]
+        } else if(i == "{Soft Mallet Use}") {
+            softMalletUse += initialCost[i]
+        } else if(i == "{Screwdriver Use}") {
+            screwdriverUse += initialCost[i]
+        } else if(i == "{Wrench Use}") {
+            wrenchUse += initialCost[i]
+        } else if(i == "{File Use}") {
+            fileUse += initialCost[i]
+        } else if(i == "{Crowbar Use}") {
+            crowbarUse += initialCost[i]
+        } else if(i == "{Wirecutters Use}") {
+            wirecutterUse += initialCost[i]
+        } else if(i == "{Mortar Use}") {
+            mortarUse += initialCost[i]
+        } else if(i == "{Soldering Use}") {
+            solderingUse += initialCost[i]
+        } else if(i == "{Angle Grinder Use}") {
+            angleGrinderUse += initialCost[i]
+        } else if(i == "{Automatic Snips Use}") {
+            automaticSnipsUse += initialCost[i]
+        } else if(i == "{Buzzsaw Use}") {
+            buzzsawUse += initialCost[i]
+        } else if(i == "{Wooden Form (Brick) Use}") {
+            formBrickUse += initialCost[i]
+        } else {
+            assig(secondaryCost, i, initialCost[i]);
+        }
+    }
+}
+
+// Recipe finder //
+function recipeFind(initialCost, secondaryCost, machineList, whitelistCost=null) {
+	for (let i in initialCost) {
+        if(whitelistCost != null) {
+            if(i in whitelistCost) {
+
+            } else {
+                if(i == "{Saw Use}") {
+                    sawUse += initialCost[i]
+                } else if(i == "{Hammer Use}") {
+                    hammerUse += initialCost[i]
+                } else if(i == "{Soft Mallet Use}") {
+                    softMalletUse += initialCost[i]
+                } else if(i == "{Screwdriver Use}") {
+                    screwdriverUse += initialCost[i]
+                } else if(i == "{Wrench Use}") {
+                    wrenchUse += initialCost[i]
+                } else if(i == "{File Use}") {
+                    fileUse += initialCost[i]
+                } else if(i == "{Crowbar Use}") {
+                    crowbarUse += initialCost[i]
+                } else if(i == "{Wirecutters Use}") {
+                    wirecutterUse += initialCost[i]
+                } else if(i == "{Mortar Use}") {
+                    mortarUse += initialCost[i]
+                } else if(i == "{Soldering Use}") {
+                    solderingUse += initialCost[i]
+                } else if(i == "{Angle Grinder Use}") {
+                    angleGrinderUse += initialCost[i]
+                } else if(i == "{Automatic Snips Use}") {
+                    automaticSnipsUse += initialCost[i]
+                } else if(i == "{Buzzsaw Use}") {
+                    buzzsawUse += initialCost[i]
+                } else if(i == "{Wooden Form (Brick) Use}") {
+                    formBrickUse += initialCost[i]
+                } else {
+                    assig(secondaryCost, i, initialCost[i]);
+                }
+                continue;
+            }
+        }
+        machine = "";
+        ///// means This Recipe Has Been Fact Checked by Real GTNH NEI
+        if(i == "Transdimensional Alignment Matrix") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+			    machine = "Assemblyline Process (UMV)"
+                assig(secondaryCost, "Infinite Spacetime Energy Boundary Casing", 1);
+                assig(secondaryCost, "SpaceTime Continuum Ripper", 4);
+                assig(secondaryCost, "Robot Arm (UMV)", 64);
+                assig(secondaryCost, "Sensor (UMV)", 16);
+                assig(secondaryCost, "Field Generator (UMV)", 4);
+                assig(secondaryCost, "Insanely Ultimate Battery", 1);
+                assig(secondaryCost, "Energised Tesseract", 32);
+                assig(secondaryCost, "Transcendent Metal Nanites", 16);
+                assig(secondaryCost, "Dense Flerovium Plate", 64);
+                assig(secondaryCost, "Dense Metastable Oganesson Plate", 32);
+                assig(secondaryCost, "[FLUID] Mutated Living Solder", 147456);
+                assig(secondaryCost, "[FLUID] Lead Plasma", 9216);
+                assig(secondaryCost, "[FLUID] Spatially Enlarged Fluid", 9216);
+            }
+        } {{recipeStr|safe}}else if(i == "[FLUID] Molten SpaceTime") {
+            if(selectionsR["Molten SpaceTime"] == "1") {
+                for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                    assig(secondaryCost, "Energised Tesseract", 1/144);
+                    assig(secondaryCost, "[FLUID] Dimensionally Transcendent Residue", 10000/144);
+                    assig(secondaryCost, "[FLUID] Molten Infinity", 2304/144);
+                    assig(secondaryCost, "[FLUID] Molten Hypogen", 1152/144);
+                }
+            } else if(selectionsR["Molten SpaceTime"] == "2") {
+                for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                    assig(secondaryCost, "Energised Tesseract", 1/576);
+                    assig(secondaryCost, "[FLUID] Dimensionally Transcendent Residue", 500/576);
+                    assig(secondaryCost, "[FLUID] Molten Infinity", 1152/576);
+                }
+            } else {
+                assig(secondaryCost, i, initialCost[i]);
+                machine = "Skip";
+            }
+        } else if(i == "{Saw Use}") {
+            sawUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Hammer Use}") {
+            hammerUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Soft Mallet Use}") {
+            softMalletUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Screwdriver Use}") {
+            screwdriverUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Wrench Use}") {
+            wrenchUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{File Use}") {
+            fileUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Crowbar Use}") {
+            crowbarUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Wirecutters Use}") {
+            wirecutterUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Mortar Use}") {
+            mortarUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Soldering Use}") {
+            solderingUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Angle Grinder Use}") {
+            angleGrinderUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Automatic Snips Use}") {
+            automaticSnipsUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Buzzsaw Use}") {
+            buzzsawUse += initialCost[i]
+            machine = "Skip";
+        } else if(i == "{Wooden Form (Brick) Use}") {
+            formBrickUse += initialCost[i]
+            machine = "Skip";
+        } else {
+            assig(secondaryCost, i, initialCost[i]);
+            machine = "Skip";
+        }
+        if(machine == "") {
+            machine = "Unknown";
+        }
+        if(machine != "Skip") {
+            machineList.push(machine);
+        }
+    }
+}
+
+// Reset tool uses //
+function resetToolUses() {
+    sawUse = 0;
+	hammerUse = 0;
+	softMalletUse = 0;
+	screwdriverUse = 0;
+	wrenchUse = 0;
+	fileUse = 0;
+	crowbarUse = 0;
+	wirecutterUse = 0;
+    mortarUse = 0;
+	solderingUse = 0;
+	angleGrinderUse = 0;
+	automaticSnipsUse = 0;
+	buzzsawUse = 0;
+	formBrickUse = 0;
+}
+
+// IO port shenanigans 2 //
+function getIOCalculations(initialCost) {
+    try {
+        if(document.getElementById("titleText").innerHTML == "Electric Blast Furnace") {  // Special scenario, rewrite in python later
+            updateIOGroupWarnings();
+            var tmp
+            if("Top" in wallshareGroupCasingModifier) {
+                if(wallshareGroupCasingModifier["Top"] == 0) {
+                    // Wallsharing exists but not wallshared
+                    for (let i = 1; i < 9; i++) {  // Top
+                        tmp = document.getElementById('IOGroup_Top_'+String(i));
+                        tmp = tmp.options[tmp.selectedIndex].text
+                        if(tmp == "Casing") {
+                            assig(initialCost, "Heat Proof Machine Casing", 1)
+                        } else if(tmp == "Output Hatch") {
+                            assig(initialCost, "Output Hatch (ULV)", 1)
+                        } else if(tmp == "Muffler Hatch") {
+                            assig(initialCost, "Muffler Hatch (LV)", 1)
+                        }
+                    }
+                }
+            } else {
+                // Wallsharing does not exist
+                for (let i = 1; i < 9; i++) {  // Top
+                    tmp = document.getElementById('IOGroup_Top_'+String(i));
+                    tmp = tmp.options[tmp.selectedIndex].text
+                    if(tmp == "Casing") {
+                        assig(initialCost, "Heat Proof Machine Casing", 1)
+                    } else if(tmp == "Output Hatch") {
+                        assig(initialCost, "Output Hatch (ULV)", 1)
+                    } else if(tmp == "Muffler Hatch") {
+                        assig(initialCost, "Muffler Hatch (LV)", 1)
+                    }
+                }
+            }
+
+            for (let i = 1; i < 8; i++) {  // Bottom
+                tmp = document.getElementById('IOGroup_Bottom_'+String(i));
+                tmp = tmp.options[tmp.selectedIndex].text
+                if(tmp == "Casing") {
+                    assig(initialCost, "Heat Proof Machine Casing", 1)
+                } else if(tmp == "Output Hatch") {
+                    assig(initialCost, "Output Hatch (ULV)", 1)
+                } else if(tmp == "Input Hatch") {
+                    assig(initialCost, "Input Hatch (ULV)", 1)
+                } else if(tmp == "Output Bus") {
+                    assig(initialCost, outputBuses, 1)
+                } else if(tmp == "Input Bus") {
+                    assig(initialCost, inputBuses, 1)
+                } else if(tmp == "Maintenance Hatch") {
+                    assig(initialCost, "Maintenance Hatch", 1)
+                }
+            }
+        } else {
+            let skippedZeros = []
+            // Get all amount 0 ingridients to avoid skipping them later
+            for (let i in initialCost) {
+                if(initialCost[i] == 0) {
+                    skippedZeros.push(i);
+                }
+            }
+            if(false) {
+                console.log("wtf");
+            } {{ioCostCalculationsStr|safe}}
+
+        	// Remove IO/casing with 0 amount
+        	for (let i in initialCost) {
+                if(initialCost[i] == 0) {
+                    if(i in skippedZeros) {
+
+                    } else {
+                        delete initialCost[i];
+                    }
+                }
+            }
+        }
+    } catch (err) {
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while calculating the multiblock's IO cost. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+
+// Get tool uses //
+function textifyToolUses() {
+    return "<br>Saw Uses: "+String(sawUse)+"<br>Hammer Uses: "+String(hammerUse)+"<br>Soft Mallet Uses: "+String(softMalletUse)+"<br>Screwdriver Uses: "+String(screwdriverUse)+"<br>Wrench Uses: "+String(wrenchUse)+"<br>File Uses: "+String(fileUse)+"<br>Crowbar Uses: "+String(crowbarUse)+"<br>Wirecutter Uses: "+String(wirecutterUse)+"<br>Mortar Uses: "+String(mortarUse)+"<br>Soldering Iron Uses: "+String(solderingUse)+"<br>Angle Grinder Uses: "+String(angleGrinderUse)+"<br>Automatic Snips Uses: "+String(automaticSnipsUse)+"<br>Buzzsaw Uses: "+String(buzzsawUse)+"<br>Wooden Form (Brick) Uses: "+String(formBrickUse);
+}
+
+// Get machine list and cost //
+function textifyOutput(costStr, machineList, cost) {
+    return "<br><strong>Machines Used: </strong>"+textifyList([...new Set(machineList)])+"<br><strong>"+costStr+": </strong>"+textifyObj(Object.entries(cost)
+  .sort(([, a], [, b]) => a - b)
+  .reduce((obj, [key, value]) => {
+    obj[key] = value;
+    return obj;
+  }, {}));
+}
+
+// Calculate: Normal version //
+function calculate() {
+    try {
+    	resetToolUses();
+        var initialCost = getCostOfMultiblock(document.getElementById("titleText").innerHTML, tierSelected);
+    	getIOCalculations(initialCost);
+    	multiplyCostByMachineNumber(initialCost);
+
+        var secondaryCost = {};
+        var threeCost = {};
+        var fourCost = {};
+        var fiveCost = {};
+        var sixCost = {};
+        var sevenCost = {};
+        var eightCost = {};
+        var nineCost = {};
+        var tenCost = {};
+        var finalCost = {};
+
+        var machineList = [];
+
+    	recipeFind(initialCost, secondaryCost, machineList);
+    	recipeFind(secondaryCost, threeCost, machineList);
+    	recipeFind(threeCost, fourCost, machineList);
+    	recipeFind(fourCost, fiveCost, machineList);
+    	recipeFind(fiveCost, sixCost, machineList);
+    	recipeFind(sixCost, sevenCost, machineList);
+    	recipeFind(sevenCost, eightCost, machineList);
+    	recipeFind(eightCost, nineCost, machineList);
+    	recipeFind(nineCost, tenCost, machineList);
+    	convertToolUses(tenCost, finalCost);
+        outp.innerHTML = textifyOutput("Final Cost", machineList, finalCost)+textifyToolUses();
+    } catch (err) {
+        document.getElementById("errorTable").style.display = "";
+        document.getElementById("errorText").innerHTML = "<h2>WARNING!</h2> An error occured while calculating the multiblock cost break down. The error is "+String(err.stack)+"<form action='https://gtnhmultiblocks.pythonanywhere.com/'><button type='submit'>Hide this message</button></form>";
+    }
+}
+
+// Callculate: First pass only //
+function calculateOne() {
+	resetToolUses();
+    var initialCost = getCostOfMultiblock(document.getElementById("titleText").innerHTML, tierSelected);
+	getIOCalculations(initialCost);
+    multiplyCostByMachineNumber(initialCost);
+
+    var secondaryCost = {};
+    var finalCost = {};
+
+    var machineList = [];
+
+	recipeFind(initialCost, secondaryCost, machineList);
+    convertToolUses(secondaryCost, finalCost);
+    outp.innerHTML = textifyOutput("First Iteration Cost", machineList, finalCost)+textifyToolUses();
+}
+
+// Calculate: Recursive first pass //
+function calculateOneR() {
+	resetToolUses();
+    var initialCost = getCostOfMultiblock(document.getElementById("titleText").innerHTML, tierSelected);
+	getIOCalculations(initialCost);
+    multiplyCostByMachineNumber(initialCost);
+    var tmpCost = {};
+
+    var secondaryCost = {};
+    var threeCost = {};
+    var fourCost = {};
+    var fiveCost = {};
+    var sixCost = {};
+    var sevenCost = {};
+    var eightCost = {};
+    var nineCost = {};
+    var tenCost = {};
+    var finalCost = {};
+
+    var machineList = [];
+
+	recipeFind(initialCost, secondaryCost, machineList, initialCost);
+	recipeFind(secondaryCost, threeCost, machineList, initialCost);
+	recipeFind(threeCost, fourCost, machineList, initialCost);
+	recipeFind(fourCost, fiveCost, machineList, initialCost);
+	recipeFind(fiveCost, sixCost, machineList, initialCost);
+	recipeFind(sixCost, sevenCost, machineList, initialCost);
+	recipeFind(sevenCost, eightCost, machineList, initialCost);
+	recipeFind(eightCost, nineCost, machineList, initialCost);
+	recipeFind(nineCost, tenCost, machineList, initialCost);
+    convertToolUses(tenCost, finalCost);
+    outp.innerHTML = textifyOutput("Recursive First Iteration Cost", machineList, finalCost)+textifyToolUses();
+}
+    	</script>
+	</body>
+<html>

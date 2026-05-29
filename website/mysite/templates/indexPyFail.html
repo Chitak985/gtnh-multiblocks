@@ -1,0 +1,743 @@
+<html>
+    <head>
+        <title>GT:NH Multiblock Resource Calculator</title>
+		<meta name="referrer" content="no-referrer-when-downgrade" />
+    </head>
+    <body>
+        <h1 style="text-align: center; font-family: 'Courier New', monospace;">GregTech: New Horizons Multiblock Resource Calculator</h1>
+        <hr>
+        <p>This calculator allows you to see the resource requirements for multiblocks in just a few clicks, and it also lets you customize the amount of I/O ports a multiblock has and change the amount of resources you would need to build one! You can use the calculator by choosing a multiblock below and pressing "Select".</p>
+        <p>If you see a multiblock that has a Base Cost of 1x Giga Chad Token, that means it doesn't have a recipe yet.</p>
+        <p>Things in [] do not get consumed in the recipe. [FLUID] before the name of an ingridient indicates that it is a liquid or a gas and its amount is expressed in liters.</p>
+        <p style="font-size: 12px">All screenshots taken are distributed under the GNU General Public License v3.0, however all icons, contents of screenshots, and related materials featured on this website are the property of their respective copyright holders. This site does not claim ownership of these materials. They are used here for informational and illustrative purposes only. All trademarks and copyrights belong to their respective owners.</p>
+
+        <p>
+            <table style="margin: auto;">
+                <caption><strong>Item Selections</strong></caption>
+                {{itemSelections|safe}}
+            </table>
+        </p>
+
+        <p>
+            <table style="margin: auto;">
+                <caption><strong>Recipe Selections</strong></caption>
+                {{recipeSelections|safe}}
+            </table>
+        </p>
+
+		<p>
+            <table style="margin: auto;">
+                <caption><strong>Choose a multiblock:</strong></caption>
+
+                <tr><td>
+                    <form action="" id="multiblockDropdown">
+                        <select name="multiblockSelector" id="multiblockSelector">
+                            {{options|safe}}
+                        </select>
+
+                        <input type="submit" value="Select">
+                    </form>
+                </tr></td>
+			</table>
+		</p>
+
+        <div style="{{mainDisplay|safe}}text-align: center;" id="mainContainer">
+            <h1 id="titleText">{{title|safe}}</h1>
+			<br>
+
+            <img width=500 src="{{image|safe}}" id="mainImage">
+
+            <table id="costTable" style="margin: 2% auto;">{{baseCost|safe}}</table>
+
+            <button onclick="calculate()">Calculate</button><br>
+    		<button onclick="calculateOne()">Calculate (first step only)</button><br>
+    		<button onclick="calculateOneR()">Calculate (recursive first step, breaks down everything that can be found in the base cost)</button><br>
+
+            <p id="output">{{output|safe}}</p>
+    	</div>
+        <script>
+const form = document.getElementById("multiblockDropdown");
+
+form.addEventListener("submit", submitted);
+
+function submitted(e) {
+  e.preventDefault();
+  const data = new FormData(form);
+  const custom_path = Array.from(data)
+    .map(([_, value]) => value);
+  location.replace(`https://gtnhmultiblocks.pythonanywhere.com/multiblock/${custom_path}`);
+}
+
+var outp = document.getElementById("output");
+function assig(obj,val,n) {
+    if(val in obj) {
+        obj[val] += n;
+    } else {
+        obj[val] = n;
+    }
+}
+
+var selections = {"diamonds": "Diamond","pistons": "Piston","ironPlates": "Iron Plate","ironGears": "Iron Gear","sand": "Sand","gypsumDust": "Gypsum Dust","concrete": "[FLUID] Concrete","clayBucket": "no"};
+var selectionsR = {"Molten SpaceTime": "1", "Coke Oven Brick (Item)": "1", "Firebricks": "1", "Blast Furnace": "1"};
+function selectI(groupS, itemS) {
+    document.getElementsByClassName(groupS)[0].disabled = false;
+    document.getElementsByClassName(groupS)[1].disabled = false;
+    if(document.getElementsByClassName(groupS)[2]){
+   		document.getElementsByClassName(groupS)[2].disabled = false;
+    }
+    document.getElementById(groupS+"."+itemS).disabled = true;
+	selections[groupS] = itemS;
+}
+
+function selectR(groupS, itemS) {
+    document.getElementsByClassName(groupS)[0].disabled = false;
+    document.getElementsByClassName(groupS)[1].disabled = false;
+    if(document.getElementsByClassName(groupS)[2]){
+   		document.getElementsByClassName(groupS)[2].disabled = false;
+    }
+    document.getElementById(groupS+"."+itemS).disabled = true;
+	selectionsR[groupS] = itemS;
+}
+
+function Lsteam() {
+    var steam = document.getElementById("steam");
+    var casing = document.getElementById("casing");
+    if(Number(steam.innerHTML) > 1) {
+        steam.innerHTML = String(Number(steam.innerHTML) - 1);
+        casing.innerHTML = String(Number(casing.innerHTML) + 1);
+    }
+}
+function Msteam() {
+    var steam = document.getElementById("steam");
+    var inputB = document.getElementById("inputB");
+    var outputB = document.getElementById("outputB");
+    var casing = document.getElementById("casing");
+    if((Number(steam.innerHTML)+Number(inputB.innerHTML)+Number(outputB.innerHTML)) < 11) {
+        steam.innerHTML = String(Number(steam.innerHTML) + 1);
+        casing.innerHTML = String(Number(casing.innerHTML) - 1);
+    }
+}
+function LinputB() {
+    var inputB = document.getElementById("inputB");
+    var casing = document.getElementById("casing");
+    if(Number(inputB.innerHTML) > 1) {
+        inputB.innerHTML = String(Number(inputB.innerHTML) - 1);
+        casing.innerHTML = String(Number(casing.innerHTML) + 1);
+    }
+}
+function MinputB() {
+    var steam = document.getElementById("steam");
+    var inputB = document.getElementById("inputB");
+    var outputB = document.getElementById("outputB");
+    var casing = document.getElementById("casing");
+    if((Number(steam.innerHTML)+Number(inputB.innerHTML)+Number(outputB.innerHTML)) < 11) {
+        inputB.innerHTML = String(Number(inputB.innerHTML) + 1);
+        casing.innerHTML = String(Number(casing.innerHTML) - 1);
+    }
+}
+function LoutputB() {
+    var outputB = document.getElementById("outputB");
+    var casing = document.getElementById("casing");
+    if(Number(outputB.innerHTML) > 1) {
+        outputB.innerHTML = String(Number(outputB.innerHTML) - 1);
+        casing.innerHTML = String(Number(casing.innerHTML) + 1);
+    }
+}
+function MoutputB() {
+    var steam = document.getElementById("steam");
+    var inputB = document.getElementById("inputB");
+    var outputB = document.getElementById("outputB");
+    var casing = document.getElementById("casing");
+    if((Number(steam.innerHTML)+Number(inputB.innerHTML)+Number(outputB.innerHTML)) < 11) {
+        outputB.innerHTML = String(Number(outputB.innerHTML) + 1);
+        casing.innerHTML = String(Number(casing.innerHTML) - 1);
+    }
+}
+
+var sawUse = 0;
+var hammerUse = 0;
+var softMalletUse = 0;
+var wrenchUse = 0;
+var fileUse = 0;
+var crowbarUse = 0;
+var wirecutterUse = 0;
+var mortarUse = 0;
+var solderingUse = 0;
+var angleGrinderUse = 0;
+var automaticSnipsUse = 0;
+var buzzsawUse = 0;
+var formBrickUse = 0;
+function recipeFind(initialCost, secondaryCost, whitelistCost=null) {
+	for (let i in initialCost) {
+        if(whitelistCost != null) {
+            for (let ix in whitelistCost) {
+                if (i != ix) {
+                    assig(secondaryCost, i, initialCost[i]);
+                    return null;
+                }
+            }
+        }
+    	if(i == "Bronze Plated Bricks") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Bronze Plate", 6);
+                assig(secondaryCost, "Bricks", 1);
+                hammerUse++;
+                wrenchUse++;
+            }
+        } else if(i == "Steam Grinder") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Bronze Plated Bricks", 4);
+                assig(secondaryCost, "Tumbaga Frame Box", 1);
+                assig(secondaryCost, selections.diamonds, 2);
+                assig(secondaryCost, selections.pistons, 2);
+            }
+        } else if(i == "Steam Hatch") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Bronze Plate", 6);
+                assig(secondaryCost, "Bronze Fluid Pipe", 2);
+                assig(secondaryCost, "Ultra Low Voltage Fluid Tank", 1);
+            }
+        } else if(i == "Ultra Low Voltage Fluid Tank") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Iron Plate", 4);
+                assig(secondaryCost, "Tin Plate", 2);
+                assig(secondaryCost, "Steel Plate", 1);
+                assig(secondaryCost, "Large Clay Fluid Pipe", 1);
+                assig(secondaryCost, "Water Bucket", 1);
+            }
+        } else if(i == "Large Clay Fluid Pipe") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Clay Plate", 6);
+                hammerUse++;
+                wrenchUse++;
+            }
+        } else if(i == "Bronze Fluid Pipe") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Bronze Plate", 6/2);
+                hammerUse += 0.5;
+                wrenchUse += 0.5;
+            }
+        } else if(i == "Input Bus (Steam)") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Bronze Plate", 4);
+                assig(secondaryCost, "Tin Plate", 2);
+                assig(secondaryCost, "Tumbaga Plate", 2);
+                assig(secondaryCost, "Hopper", 1);
+            }
+        } else if(i == "Output Bus (Steam)") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Bronze Plate", 4);
+                assig(secondaryCost, "Tumbaga Plate", 2);
+                assig(secondaryCost, "Tin Plate", 2);
+                assig(secondaryCost, "Hopper", 1);
+            }
+        } else if(i == "Hopper") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, selections.ironPlates, 5);
+                assig(secondaryCost, selections.ironGears, 1);
+                assig(secondaryCost, "Chest", 1);
+                hammerUse++;
+                fileUse++;
+            }
+        } else if(i == "Chest") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Wood", 4);
+                assig(secondaryCost, "Wood Planks", 4);
+                assig(secondaryCost, "Flint", 1);
+            }
+        } else if(i == "Stargate Base") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Transdimensional Alignment Matrix", 4);
+                assig(secondaryCost, "Field Generator (UXV)", 16);
+                assig(secondaryCost, "Emitter (UXV)", 8);
+                assig(secondaryCost, "Magmatter Nanites", 4);
+                assig(secondaryCost, "Central Graviton Flow Modulator", 8);
+                assig(secondaryCost, "Superdense Magmatter Plate", 4);
+                assig(secondaryCost, "Stargate-Radiation-Containment-Plate", 8);
+                assig(secondaryCost, "Mining Drone MK-XIII", 2);
+                assig(secondaryCost, "Mega Ultimate Battery", 4);
+                assig(secondaryCost, "Artificial Universe ME Storage Cell", 1);
+                assig(secondaryCost, "Astral Array Fabricator", 6);
+                assig(secondaryCost, "Eye of Harmony", 4);
+                assig(secondaryCost, "Space Assembler Module MK-III", 2);
+                assig(secondaryCost, "Stargate Chevron Block", 8);
+                assig(secondaryCost, "Stargate Core Crystal", 8);
+                assig(secondaryCost, "ME Fluid Artificial Universe Storage Cell", 1);
+            }
+        } else if(i == "Stargate Controller") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Block of Magmatter", 15);
+                assig(secondaryCost, "Dark Matter", 4);
+                assig(secondaryCost, "Keyboard", 8);
+                assig(secondaryCost, "Stargate Frame Part", 8);
+                assig(secondaryCost, "Sensor (UXV)", 2);
+                assig(secondaryCost, "Emitter (UXV)", 2);
+                assig(secondaryCost, "Stargate Controller Crystal", 1);
+                assig(secondaryCost, "Stargate-Radiation-Containment-Plate", 6);
+                assig(secondaryCost, "Mega Ultimate Battery", 1);
+                assig(secondaryCost, "OpenComputers Stargate Interface", 1);
+                assig(secondaryCost, "ME Fluid Artificial Universe Storage Cell", 1);
+            }
+        } else if(i == "RF Stargate Power Unit") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Block of Magmatter", 18);
+                assig(secondaryCost, "Dark Matter", 12);
+                assig(secondaryCost, "Compact Fusion Coil MK-II Finaltype", 10);
+                assig(secondaryCost, "Mega Ultimate Battery", 4);
+                assig(secondaryCost, "Ridiculously Large Capacitor", 4);
+                assig(secondaryCost, "Stargate Ring Block", 1);
+                assig(secondaryCost, "Magmatter Nanites", 6);
+                assig(secondaryCost, "Giga Chad Token", 2);
+            }
+        } else if(i == "Stargate Ring Block") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Block of Magmatter", 18);
+                assig(secondaryCost, "Dark Matter", 9);
+                assig(secondaryCost, "Stargate Frame Part", 21);
+                assig(secondaryCost, "Stargate Chevron", 3);
+                assig(secondaryCost, "Stargate-Radiation-Containment-Plate", 11);
+                assig(secondaryCost, "Field Generator (UXV)", 9);
+            }
+        } else if(i == "Stargate Chevron Block") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Block of Magmatter", 16);
+                assig(secondaryCost, "Dark Matter", 12);
+                assig(secondaryCost, "Stargate Chevron Upgrade", 4);
+                assig(secondaryCost, "Stargate Ring Block", 1);
+                assig(secondaryCost, "Central Graviton Flow Modulator", 4);
+                assig(secondaryCost, "Field Generator (UXV)", 4);
+            }
+        } else if(i == "Transdimensional Alignment Matrix") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Infinite Spacetime Energy Boundary Casing", 1);
+                assig(secondaryCost, "SpaceTime Continuum Ripper", 4);
+                assig(secondaryCost, "Robot Arm (UMV)", 64);
+                assig(secondaryCost, "Sensor (UMV)", 16);
+                assig(secondaryCost, "Field Generator (UMV)", 4);
+                assig(secondaryCost, "Insanely Ultimate Battery", 1);
+                assig(secondaryCost, "Energized Tesseract", 32);
+                assig(secondaryCost, "Transcendent Metal Nanites", 16);
+                assig(secondaryCost, "Dense Flerovium Plate", 64);
+                assig(secondaryCost, "Dense Metastable Oganesson Plate", 32);
+                assig(secondaryCost, "[FLUID] Mutated Living Solder", 147456);
+                assig(secondaryCost, "[FLUID] Lead Plasma", 9216);
+                assig(secondaryCost, "[FLUID] Spatially Enlarged Fluid", 9216);
+            }
+        } else if(i == "Giga Chad Token") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Field Generator (UEV)", 64);
+                assig(secondaryCost, "Field Generator (UIV)", 64);
+                assig(secondaryCost, "Field Generator (UMV)", 64);
+                assig(secondaryCost, "[FLUID] Excited Dimensionally Transcendent Exotic Catalyst", 100000000);
+                assig(secondaryCost, "[FLUID] Molten SpaceTime", 165888);
+            }
+        } else if(i == "Stargate Controller Crystal") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Stargate-Crystal Dust", 64);
+                assig(secondaryCost, "[FLUID] Molten Magnetohydrodynamically Constrained Star Matter", 128000000);
+            }
+        } else if(i == "ME Fluid Artificial Universe Storage Cell") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Field Generator (UXV)", 1);
+                assig(secondaryCost, "Magmatter Nanites", 4);
+                assig(secondaryCost, "ME Fluid Digital Singularity Storage Cell", 1);
+                assig(secondaryCost, "Dense Shirabon Plate", 16);
+                assig(secondaryCost, "Fluid Cell Block T10", 2);
+                assig(secondaryCost, "T.F.F.T Storage Field Block (Tier X)", 2);
+                assig(secondaryCost, "Gallifreyan Spacetime Compression Field Generator", 4);
+                assig(secondaryCost, "Eternity Nanites", 4);
+                assig(secondaryCost, "[FLUID] Molten Eternity", 36864);
+            }
+        } else if(i == "Magmatter Nanites") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                //assig(secondaryCost, "Forcicium Lens", 1);
+                //assig(secondaryCost, "Forcillium Lens", 1);
+                assig(secondaryCost, "Universium Nanites", 1);
+                assig(secondaryCost, "Block of Magmatter", 1);
+                assig(secondaryCost, "Pico Wafer", 64);
+                assig(secondaryCost, "UXV Circuit", 1);
+                assig(secondaryCost, "[FLUID] Degenerate Quark Gluon Plasma", 10000);
+                assig(secondaryCost, "[FLUID] Lossless Phonon Transfer Medium", 64000);
+                assig(secondaryCost, "[FLUID] Liquid Primordial Matter", 128000);
+            }
+        } else if(i == "Keyboard") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Button", 104);
+                assig(secondaryCost, "LV Circuit", 1);
+                assig(secondaryCost, "Aluminium Casing", 1);
+            }
+        } else if(i == "[FLUID] Molten SpaceTime") {
+            if(selectionsR["Molten SpaceTime"] == "1") {
+                for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                    assig(secondaryCost, "Energized Tesseract", 1/144);
+                    assig(secondaryCost, "[FLUID] Dimensionally Transcendent Residue", 10000/144);
+                    assig(secondaryCost, "[FLUID] Molten Infinity", 2304/144);
+                    assig(secondaryCost, "[FLUID] Molten Hypogen", 1152/144);
+                }
+            } else if(selectionsR["Molten SpaceTime"] == "2") {
+                for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                    assig(secondaryCost, "Energized Tesseract", 1/576);
+                    assig(secondaryCost, "[FLUID] Dimensionally Transcendent Residue", 500/576);
+                    assig(secondaryCost, "[FLUID] Molten Infinity", 1152/576);
+                }
+            } else {
+                assig(secondaryCost, i, initialCost[i]);
+            }
+        } else if(i == "Stargate Controller Crystal") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Stargate-Crystal Dust", 64);
+                assig(secondaryCost, "[FLUID] Molten Magnetohydrodynamically Constrained Star Matter", 128000000);
+            }
+        } else if(i == "Stargate-Crystal Dust") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Hyper-Stable Self-Healing Adhesive", 64);
+                assig(secondaryCost, "Superconductor Rare-Earth Composite", 64);
+                assig(secondaryCost, "Black Body Naquadria Supersolid", 64);
+                assig(secondaryCost, "Timepiece", 64);
+                assig(secondaryCost, "Z Boson", 64);
+                assig(secondaryCost, "ETA Meson", 64);
+                assig(secondaryCost, "Lambda", 64);
+                assig(secondaryCost, "Omega", 64);
+                assig(secondaryCost, "Graviton Shard", 4);
+                assig(secondaryCost, "[FLUID] Subatomically Perfect Water (Grade 8)", 1000000000);
+            }
+        } else if(i == "Superdense Magmatter Plate") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Magmatter Plate", 64);
+            }
+        } else if(i == "Eye of Harmony") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Space Elevator", 16);
+                assig(secondaryCost, "Forge of the Gods", 4);
+                assig(secondaryCost, "Dimensionally Transcendent Plasma Forge", 4);
+                assig(secondaryCost, "Infinite Spacetime Energy Boundary Casing", 1);
+                assig(secondaryCost, "Crude Time Dilation Field Generator", 1);
+                assig(secondaryCost, "Crude Spacetime Compression Field Generator", 1);
+                assig(secondaryCost, "Crude Stabilisation Field Generator", 1);
+                assig(secondaryCost, "Quantum Computer", 64);
+                assig(secondaryCost, "Ultimate Time Anomaly", 64);
+                assig(secondaryCost, "Quantum Chest V", 64);
+                assig(secondaryCost, "Void Miner III", 64);
+                assig(secondaryCost, "Infinite Fluid Drilling Rig", 64);
+                assig(secondaryCost, "Field Generator (UMV)", 16);
+                assig(secondaryCost, "Robot Arm (UMV)", 16);
+                assig(secondaryCost, "Insanely Ultimate Battery", 4);
+                assig(secondaryCost, "16x Superconductor UMV Wire", 64);
+                assig(secondaryCost, "[FLUID] Tachyon Rich Temporal Fluid", 144000);
+                assig(secondaryCost, "[FLUID] Spatially Enlarged Fluid", 144000);
+                assig(secondaryCost, "[FLUID] Molten Metastable Oganesson", 147456);
+                assig(secondaryCost, "[FLUID] Molten Shirabon", 147456);
+            }
+        } else if(i == "Stargate Core Crystal") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Stargate-Crystal Dust", 64);
+                assig(secondaryCost, "[FLUID] Stargate Crystal Slurry", 128000000);
+            }
+        } else if(i == "Block of Magmatter") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Magmatter Ingots", 9);
+            }
+        } else if(i == "Ridiculously Large Capacitor") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Emitter (UXV)", 2);
+                assig(secondaryCost, "Stargate-Radiation-Containment-Plate", 12);
+                assig(secondaryCost, "Field Generator (UXV)", 4);
+                assig(secondaryCost, "Chaotic Capacitor Bank", 8);
+                assig(secondaryCost, "Stellar Energy Siphon Casing", 4);
+                assig(secondaryCost, "Mega Ultimate Battery", 3);
+            }
+        } else if(i == "OpenComputers Stargate Interface") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Block of Magmatter", 18);
+                assig(secondaryCost, "Dark Matter", 12);
+                assig(secondaryCost, "Compact Fusion Coil MK-II Finaltype", 10);
+                assig(secondaryCost, "Magmatter Nanites", 6);
+                assig(secondaryCost, "Giga Chad Token", 2);
+                assig(secondaryCost, "Cloud Computation Client Hatch", 4);
+                assig(secondaryCost, "Singularity Crafting Storage", 4);
+                assig(secondaryCost, "Stargate Ring Block", 1);
+            }
+        } else if(i == "Singularity Crafting Storage") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Neutronium Energy Cell", 4);
+                assig(secondaryCost, "Pico Circuit", 8);
+                assig(secondaryCost, "Field Generator (UIV)", 12);
+                assig(secondaryCost, "Reactor Stabilizer", 8);
+                assig(secondaryCost, "Transcendent Metal Nanites", 4);
+                assig(secondaryCost, "Dense Infinity Plate", 24);
+                assig(secondaryCost, "1x SpaceTime Wire", 12);
+                assig(secondaryCost, "SpaceTime Frame Box", 4);
+                assig(secondaryCost, "Crafting Unit", 4);
+                assig(secondaryCost, "Digital Singularity ME Storage Cell", 1);
+            }
+        } else if(i == "Reactor Stabilizer") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Black Plutonium Plate", 4);
+                assig(secondaryCost, "Awakened Draconium Plate", 17);
+                assig(secondaryCost, "Reactor Stabilizer Frame", 1);
+                assig(secondaryCost, "Engraved Manyullyn Crystal Chip", 4);
+                assig(secondaryCost, "Draconic Flux Capacitor", 4);
+                assig(secondaryCost, "Chaotic Core", 2);
+                assig(secondaryCost, "Reactor Stabilizer Focus Ring", 1);
+                assig(secondaryCost, "Reactor Stabilizer Rotor Assembly", 1);
+                assig(secondaryCost, "Cosmic Neutronium Block", 1);
+            }
+        } else if(i == "Coke Oven Brick (Block)") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Coke Oven Brick (Item)", 4);
+            }
+        } else if(i == "Coke Oven Brick (Item)") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                if(selectionsR[i] == "1") {
+                    assig(secondaryCost, "Unfired Coke Oven Brick", 1);
+                } else if(selectionsR[i] == "2") {
+                    assig(secondaryCost, selections["sand"], 1/2);
+                    assig(secondaryCost, "Clay", 1/2);
+                }
+            }
+        } else if(i == "Unfired Coke Oven Brick") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, selections["sand"], 5/3);
+                formBrickUse += 1/3;
+                assig(secondaryCost, "Clay", 3/3);
+            }
+        } else if(i == "Artificial Universe ME Storage Cell") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Digital Singularity ME Storage Cell", 1);
+                assig(secondaryCost, "Dense Transcendent Metal Plate", 64);
+                assig(secondaryCost, "Field Generator (UXV)", 1);
+                assig(secondaryCost, "Mega Ultimate Battery", 1);
+                assig(secondaryCost, "Gallifreyan Spacetime Compression Field Generator", 4);
+                assig(secondaryCost, "Magmatter Nanites", 4);
+                assig(secondaryCost, "Eternity Nanites", 4);
+                assig(secondaryCost, "[FLUID] Molten Eternity", 36864);
+            }
+        } else if(i == "ME Fluid Digital Singularity Storage Cell") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Eternal Singularity", 1);
+                assig(secondaryCost, "Fluid Cell Block T7", 4);
+                assig(secondaryCost, "16384k ME Fluid Storage Component", 8);
+                assig(secondaryCost, "Quantum Tank V", 8);
+                assig(secondaryCost, "Infinity Block", 4);
+                assig(secondaryCost, "Infinity Catalyst", 4);
+                assig(secondaryCost, "Cosmic Neutronium Block", 12);
+                assig(secondaryCost, "[FLUID] Mutated Living Solder", 2304);
+            }
+        } else if(i == "Crude Time Dilation Field Generator") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Reinforced Temporal Structure Casing", 1);
+                assig(secondaryCost, "Fusion Control Computer Mark II", 1);
+                assig(secondaryCost, "Compact Fusion Coil", 1);
+                assig(secondaryCost, "Ultimate Solar Panel", 1);
+                assig(secondaryCost, "UXV Circuit", 1);
+                assig(secondaryCost, "Red Spectral Component", 64);
+                assig(secondaryCost, "Green Spectral Component", 64);
+                assig(secondaryCost, "Blue Spectral Component", 64);
+                assig(secondaryCost, "Shirabon Bolt", 2);
+                assig(secondaryCost, "Dyson Swarm Module Deployment Unit Base Casing", 4);
+                assig(secondaryCost, "Dyson Swarm Energy Receiver Dish Block", 4);
+                assig(secondaryCost, "Ultimate Time Anomaly", 4);
+                assig(secondaryCost, "Energy Module", 1);
+                assig(secondaryCost, "1x Superconductor UMV Wire", 4);
+                assig(secondaryCost, "[FLUID] Mutated Living Solder", 2880);
+                assig(secondaryCost, "[FLUID] Tachyon Rich Temporal Fluid", 1440);
+                assig(secondaryCost, "[FLUID] Molten SpaceTime", 1440);
+            }
+        } else if(i == "Firebricks") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                if(selectionsR[i] == "1") {
+                    assig(secondaryCost, "Firebrick", 6);
+                    assig(secondaryCost, selections["gypsumDust"], 2);
+                    if(selections["clayBucket"] == "yes")
+                    {
+                    	assig(secondaryCost, "Concrete Clay Bucket", 1);
+                    } else {
+                    	assig(secondaryCost, "Bucket of Concrete", 1);
+                    }
+                } else if(selectionsR[i] == "2") {
+                    assig(secondaryCost, "Firebrick", 24/4);
+                    assig(secondaryCost, selections["gypsumDust"], 8/4);
+                    assig(secondaryCost, selections["concrete"], 4608/4);
+                }
+            }
+        } else if(i == "Firebrick") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Compressed Fireclay", 1);
+            }
+        } else if(i == "Compressed Fireclay") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Fireclay Dust", 1);
+            }
+        } else if(i == "Fireclay Dust") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Brick Dust", 1/2);
+                assig(secondaryCost, "Clay Dust", 1/2);
+            }
+        } else if(i == "Bricked Blast Furnace") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                assig(secondaryCost, "Firebricks", 4);
+                assig(secondaryCost, "Blast Furnace", 4);
+                wrenchUse++;
+            }
+        } else if(i == "Blast Furnace") {
+			for (let i2 = 0; i2 < initialCost[i]; i2++) {
+                if(selectionsR[i] == "1") {
+                    assig(secondaryCost, "Furnace", 1);
+                    assig(secondaryCost, selections["ironPlates"], 7);
+                    wrenchUse++;
+                } else if(selectionsR[i] == "2") {
+                    assig(secondaryCost, "Furnace", 1);
+                    assig(secondaryCost, selections["ironPlates"], 5);
+                }
+            }
+        } else {
+            assig(secondaryCost, i, initialCost[i]);
+        }
+    }
+}
+
+function textifyObj(obj) {
+	let text = '<table style="margin: 2% auto;">';
+    for (let x in obj) {
+    	text += '<tr><td style="text-align: left;">'+String(x)+": "+String(obj[x])+"</td></tr>";
+    }
+	return text+"</table>";
+}
+
+function calculate() {
+	sawUse = 0;
+	hammerUse = 0;
+	softMalletUse = 0;
+	wrenchUse = 0;
+	fileUse = 0;
+	crowbarUse = 0;
+	wirecutterUse = 0;
+    mortarUse = 0;
+	solderingUse = 0;
+	angleGrinderUse = 0;
+	automaticSnipsUse = 0;
+	buzzsawUse = 0;
+	formBrickUse = 0;
+    var initialCost = getCostOfMultiblock(document.getElementById("titleText").innerHTML);
+	if(document.getElementById("titleText").innerHTML == "Steam Grinder") {
+        initialCost["Bronze Plated Bricks"] = Number(casing.innerHTML);
+		initialCost["Steam Hatch"] = Number(steam.innerHTML);
+		initialCost["Input Bus (Steam)"] = Number(inputB.innerHTML);
+		initialCost["Output Bus (Steam)"] = Number(outputB.innerHTML);
+	}
+    var secondaryCost = {};
+    var threeCost = {};
+    var fourCost = {};
+    var fiveCost = {};
+    var sixCost = {};
+    var sevenCost = {};
+    var eightCost = {};
+    var nineCost = {};
+    var tenCost = {};
+
+	recipeFind(initialCost, secondaryCost);
+	recipeFind(secondaryCost, threeCost);
+	recipeFind(threeCost, fourCost);
+	recipeFind(fourCost, fiveCost);
+	recipeFind(fiveCost, sixCost);
+	recipeFind(sixCost, sevenCost);
+	recipeFind(sevenCost, eightCost);
+	recipeFind(eightCost, nineCost);
+	recipeFind(nineCost, tenCost);
+    outp.innerHTML = "<br><strong>Final Cost: "+textifyObj(Object.entries(tenCost)
+  .sort(([, a], [, b]) => a - b)
+  .reduce((obj, [key, value]) => {
+    obj[key] = value;
+    return obj;
+  }, {}))+"</strong>";
+
+	outp.innerHTML += "<br>Saw Uses: "+String(sawUse)+"<br>Hammer Uses: "+String(hammerUse)+"<br>Soft Mallet Uses: "+String(softMalletUse)+"<br>Wrench Uses: "+String(wrenchUse)+"<br>File Uses: "+String(fileUse)+"<br>Crowbar Uses: "+String(crowbarUse)+"<br>Wirecutter Uses: "+String(wirecutterUse)+"<br>Mortar Uses: "+String(mortarUse)+"<br>Soldering Iron Uses: "+String(solderingUse)+"<br>Angle Grinder Uses: "+String(angleGrinderUse)+"<br>Automatic Snips Uses: "+String(automaticSnipsUse)+"<br>Buzzsaw Uses: "+String(buzzsawUse)+"<br>Wooden Form (Brick) Uses: "+String(formBrickUse);
+}
+
+function calculateOne() {
+	sawUse = 0;
+	hammerUse = 0;
+	softMalletUse = 0;
+	wrenchUse = 0;
+	fileUse = 0;
+	crowbarUse = 0;
+	wirecutterUse = 0;
+    mortarUse = 0;
+	solderingUse = 0;
+	angleGrinderUse = 0;
+	automaticSnipsUse = 0;
+	buzzsawUse = 0;
+	formBrickUse = 0;
+    var initialCost = getCostOfMultiblock(document.getElementById("titleText").innerHTML);
+	if(document.getElementById("titleText").innerHTML == "Steam Grinder") {
+        initialCost["Bronze Plated Bricks"] = Number(casing.innerHTML);
+		initialCost["Steam Hatch"] = Number(steam.innerHTML);
+		initialCost["Input Bus (Steam)"] = Number(inputB.innerHTML);
+		initialCost["Output Bus (Steam)"] = Number(outputB.innerHTML);
+	}
+    var secondaryCost = {};
+
+	recipeFind(initialCost, secondaryCost);
+    outp.innerHTML = "<br><strong>Final Cost: "+textifyObj(Object.entries(secondaryCost)
+  .sort(([, a], [, b]) => a - b)
+  .reduce((obj, [key, value]) => {
+    obj[key] = value;
+    return obj;
+  }, {}))+"</strong>";
+
+	outp.innerHTML += "<br>Saw Uses: "+String(sawUse)+"<br>Hammer Uses: "+String(hammerUse)+"<br>Soft Mallet Uses: "+String(softMalletUse)+"<br>Wrench Uses: "+String(wrenchUse)+"<br>File Uses: "+String(fileUse)+"<br>Crowbar Uses: "+String(crowbarUse)+"<br>Wirecutter Uses: "+String(wirecutterUse)+"<br>Mortar Uses: "+String(mortarUse)+"<br>Soldering Iron Uses: "+String(solderingUse)+"<br>Angle Grinder Uses: "+String(angleGrinderUse)+"<br>Automatic Snips Uses: "+String(automaticSnipsUse)+"<br>Buzzsaw Uses: "+String(buzzsawUse)+"<br>Wooden Form (Brick) Uses: "+String(formBrickUse);
+}
+
+function calculateOneR() {
+	sawUse = 0;
+	hammerUse = 0;
+	softMalletUse = 0;
+	wrenchUse = 0;
+	fileUse = 0;
+	crowbarUse = 0;
+	wirecutterUse = 0;
+    mortarUse = 0;
+	solderingUse = 0;
+	angleGrinderUse = 0;
+	automaticSnipsUse = 0;
+	buzzsawUse = 0;
+	formBrickUse = 0;
+    var initialCost = getCostOfMultiblock(document.getElementById("titleText").innerHTML);
+	if(document.getElementById("titleText").innerHTML == "Steam Grinder") {
+        initialCost["Bronze Plated Bricks"] = Number(casing.innerHTML);
+		initialCost["Steam Hatch"] = Number(steam.innerHTML);
+		initialCost["Input Bus (Steam)"] = Number(inputB.innerHTML);
+		initialCost["Output Bus (Steam)"] = Number(outputB.innerHTML);
+	}
+    var tmpCost = {};
+    var secondaryCost = {};
+    var threeCost = {};
+    var fourCost = {};
+    var fiveCost = {};
+    var sixCost = {};
+    var sevenCost = {};
+    var eightCost = {};
+    var nineCost = {};
+    var tenCost = {};
+
+	recipeFind(initialCost, secondaryCost, initialCost);
+	recipeFind(secondaryCost, threeCost, initialCost);
+	recipeFind(threeCost, fourCost, initialCost);
+	recipeFind(fourCost, fiveCost, initialCost);
+	recipeFind(fiveCost, sixCost, initialCost);
+	recipeFind(sixCost, sevenCost, initialCost);
+	recipeFind(sevenCost, eightCost, initialCost);
+	recipeFind(eightCost, nineCost, initialCost);
+	recipeFind(nineCost, tenCost, initialCost);
+    outp.innerHTML = "<br><strong>Final Cost: "+textifyObj(Object.entries(tenCost)
+  .sort(([, a], [, b]) => a - b)
+  .reduce((obj, [key, value]) => {
+    obj[key] = value;
+    return obj;
+  }, {}))+"</strong>";
+
+	outp.innerHTML += "<br>Saw Uses: "+String(sawUse)+"<br>Hammer Uses: "+String(hammerUse)+"<br>Soft Mallet Uses: "+String(softMalletUse)+"<br>Wrench Uses: "+String(wrenchUse)+"<br>File Uses: "+String(fileUse)+"<br>Crowbar Uses: "+String(crowbarUse)+"<br>Wirecutter Uses: "+String(wirecutterUse)+"<br>Mortar Uses: "+String(mortarUse)+"<br>Soldering Iron Uses: "+String(solderingUse)+"<br>Angle Grinder Uses: "+String(angleGrinderUse)+"<br>Automatic Snips Uses: "+String(automaticSnipsUse)+"<br>Buzzsaw Uses: "+String(buzzsawUse)+"<br>Wooden Form (Brick) Uses: "+String(formBrickUse);
+}
+    	</script>
+	</body>
+<html>
